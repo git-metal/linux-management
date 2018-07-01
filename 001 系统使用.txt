@@ -1,0 +1,82 @@
+
+Linux系统参数设置：
+    #查看Linux系統級的最大打開文件數限制
+    cat /proc/sys/fs/file-max
+    #设置Linux系統級的最大打開文件數
+    echo 65535 > /proc/sys/fs/file-max
+
+    #查看本地网络端口范围
+    cat /proc/sys/net/ipv4/ip_local_port_range
+    #修改本地网络端口范围
+        临时修改：
+        echo "start-number end-number" > /proc/sys/net/ipv4/ip_local_port_range
+        永久修改：
+        vi /etc/sysctl.conf在文件中添加如下行：
+        net.ipv4.ip_local_port_range = 32768 60999
+        sysctl -p #加载配置，使之生效
+    
+    #查看TCP最大连接数限制
+    cat /proc/sys/net/ipv4/ip_conntrack_max 
+    #设置TCP最大连接数限制
+    net.ipv4.ip_conntrack_max = 10240
+
+ulimit的使用：
+    #显示当前的各种用户进程限制
+    ulimit -a   
+
+    #修改进程最大打开文件数量
+    ulimit -n 65536     
+    ulimit -n unlimited  (无限制)
+
+    #其他建议的限制
+        数据段长度：ulimit -d unlimited
+        最大内存大小：ulimit -m unlimited
+        堆栈大小：ulimit -s unlimited
+        CPU 时间：ulimit -t unlimited
+        虚拟内存：ulimit -v unlimited
+
+    #解除 Linux 系统的最大进程数和最大文件打开数限制
+        vi /etc/security/limits.conf
+        # 添加如下的行
+        * soft noproc 11000
+        * hard noproc 11000
+        * soft nofile 20480
+        * hard nofile 20480
+        说明：* 代表针对所有用户，noproc 是代表最大进程数，nofile 是代表最大文件打开数
+
+
+关闭/打开Linux内核dmesg中时间戳信息
+    #关闭时间戳信息(Disable dmesg timestamp)
+    echo N > /sys/module/printk/parameters/time
+
+    #打开时间戳信息(Enable dmesg timestamp)
+    echo Y > /sys/module/printk/parameters/time
+
+升级/修改Linux内核时，如何关闭生成rescue image
+    设置/usr/lib/dracut/dracut.conf.d/02-rescue.conf文件中的dracut_rescue_image="no"
+
+CentOS 7启动过程调试:
+    http://ilinuxkernel.com/?p=1848
+    在内核启动参数加上以下内容：
+    rd.debug rdudevdebug systemd.log_level=debug systemd.log_target=console console=ttyS1,115200n8
+
+    在CentOS 7中，我们可以将以下内容添加到/etc/default/grub文件中，然后执行grub2-mkconfig -o /boot/grub2/grub.cfg更新GRUB。
+        GRUB_CMDLINE_LINUX_DEFAULT="rd.debug rdudevdebug systemd.log_level=debug systemd.log_target=console console=ttyS1,115200n8"
+        GRUB_TERMINAL=serial
+        GRUB_SERIAL_COMMAND="serial –speed=115200 –unit=0 –word=8 –parity=no –stop=1"
+
+
+Linux下文件数据恢复工具：
+    TestDisk https://www.cgsecurity.org/  
+
+恢复ext3/ext4文件系统删除文件工具：
+    extundelete http://extundelete.sourceforge.net/
+
+Linux动态Lib库文件路径的环境变量设置：
+    在运行程序时，我们希望程序到指定路径搜索动态库。方法是设置LD_LIBRARY_PATH环境变量。
+    #缺省的路径
+        /lib和/usr/lib
+        /etc/ld.so.conf中指明的路径
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/lib_path/
+
+

@@ -1,0 +1,33 @@
+原文链接:http://ilinuxkernel.com/?p=688
+
+介绍
+在Linux或PXE环境中，我们希望直接启动ISO文件，而无须刻录光盘或制作复杂的U盘。
+本文介绍基于memdisk来实现Grub或Syslinux启动环境中直接引导ISO文件。ISO文件如Windows Xp安装ISO文件、Ubuntu 11.04 ISO文件等。
+
+memdisk的官方网站和详细介绍，请参考链接：http://syslinux.zytor.com/wiki/index.php/MEMDISK
+注意：请直接在官方网站上下载最新版本memdisk并编译，编译memdisk需要nasm编译器，nasm官方网址：http://www.nasm.us/。
+
+Grub启动ISO文件配置参数
+title FreeDOS Base CD
+
+     root (hd0,4)
+
+     kernel /boot/memdisk iso raw
+
+     initrd /boot/fdbasecd.iso
+
+Grub2启动ISO文件配置参数
+menuentry “Ubuntu 11.04 from iso” {
+
+     linux16 /boot/memdisk iso raw 
+
+      initrd16 /boot/ubuntu-11.04-desktop-i386.iso
+
+}
+
+Syslinux启动ISO文件配置参数
+Label Ubuntu 11.04
+
+       kernel memdisk
+
+       append intird=ubuntu-11.04-desktop-i386.iso iso raw
