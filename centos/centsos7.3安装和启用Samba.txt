@@ -1,0 +1,4 @@
+
+1、安装软件包
+	yum install samba samba-client samba-common -y
+2、
