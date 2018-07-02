@@ -1,0 +1,57 @@
+
+下载文件：
+	curl -O {url}			#默认文件名
+	curl -o my_name {url}	#自定义文件名
+
+curl参数：
+	-X:
+	-d:
+	-H:
+	-I:
+	-i:
+
+#获取Token
+curl -I -X POST -d '{
+  "auth": {
+    "identity": {
+      "methods": [
+        "password"
+      ],
+      "password": {
+        "user": {
+          "name": "xxxx",
+          "password": "xxx",
+          "domain": {
+            "name": "xxx"
+          }
+        }
+      }
+    },
+    "scope": {
+      "project": {
+        "id": "xxx"
+      }
+    }
+  }
+}' https://iam.cn-east-2.myhuaweicloud.com/v3/auth/tokens
+
+#获取镜像元数据
+curl -i -k -H "Content-Type:application/json" -H "X-Auth-Token:${token}" -X POST -d '
+{
+    "__os_version": "CentOS 7.3 64bit",
+    "container_format": "bare",
+    "disk_format": "qcow2",
+    "min_disk": 40,
+    "min_ram": 1024,
+    "name": "xxxxt",
+    "tags": [
+        "test",
+        "image"
+    ],
+    "visibility": "private",
+    "protected": false
+}' https://ims.cn-east-2.myhuaweicloud.com/v2/images
+
+#上传镜像
+curl -i --insecure 'https://ims.cn-east-2.myhuaweicloud.com/v2/images/xxx/file' -X PUT -H "X-Auth-Token: $token" -H "Content-Type:application/octet-stream" -T Ubuntu16.10_64_UEFI.qcow2
+
