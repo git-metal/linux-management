@@ -1,12 +1,12 @@
 
 kernle参数：
-	https://www.kernel.org/doc/html/latest/admin-guide/kernel-parameters.html
+    https://www.kernel.org/doc/html/latest/admin-guide/kernel-parameters.html
 
 
 #grub中设置kernel参数
-	init=/bin/bash		#进入bash模式
-	singel				#进入单用户模式
-	3					#进入命令行模式
+    init=/bin/bash      #进入bash模式
+    singel              #进入单用户模式
+    3                   #进入命令行模式
 
-	xen_emul_unplug=never	#不拔除xen模拟设备
-	xen_platform_pci.dev_unplug=all
+    xen_emul_unplug=never   #不拔除xen模拟设备
+    xen_platform_pci.dev_unplug=all

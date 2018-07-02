@@ -1,15 +1,15 @@
 
 redhat6.x:
-	gzip -dc {initrd_file} | cpio -idm
-	/sbin/depmod -b ./ -v {kernel_version} 
-	find . | cpio -H newc -o --quiet | gzip -9 > {initrd_file}
+    gzip -dc {initrd_file} | cpio -idm
+    /sbin/depmod -b ./ -v {kernel_version} 
+    find . | cpio -H newc -o --quiet | gzip -9 > {initrd_file}
 
 redhat7.x:
-	skipcpio {initrd_file} | gunzip -c | cpio -i -d
-	/sbin/depmod -b ./ -v {kernel_version} 
-	find . -print0 | cpio --null -H newc -o --quiet | gzip -9 > {initrd_file}
+    skipcpio {initrd_file} | gunzip -c | cpio -i -d
+    /sbin/depmod -b ./ -v {kernel_version} 
+    find . -print0 | cpio --null -H newc -o --quiet | gzip -9 > {initrd_file}
 
 suse42.x:
-	skipcpio {initrd_file} | xz -cd | cpio -idm
-	/sbin/depmod -b ./ -v {kernel_version} 
-	find . | cpio -H newc -o --quiet | xz -0 --check=crc32 > {initrd_file}
+    skipcpio {initrd_file} | xz -cd | cpio -idm
+    /sbin/depmod -b ./ -v {kernel_version} 
+    find . | cpio -H newc -o --quiet | xz -0 --check=crc32 > {initrd_file}

@@ -1,14 +1,14 @@
 
 下载文件：
-	curl -O {url}			#默认文件名
-	curl -o my_name {url}	#自定义文件名
+    curl -O {url}           #默认文件名
+    curl -o my_name {url}   #自定义文件名
 
 curl参数：
-	-X:
-	-d:
-	-H:
-	-I:
-	-i:
+    -X:
+    -d:
+    -H:
+    -I:
+    -i:
 
 #获取Token
 curl -I -X POST -d '{
