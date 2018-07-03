@@ -1,0 +1,35 @@
+官网: https://cloudinit.readthedocs.io/en/latest/index.html
+Git： https://github.com/cloud-init/cloud-init
+
+原理：
+    #配置文件
+    /etc/cloud/cloud.cfg
+    #安装的路径
+    /var/lib/cloud
+
+    #5个阶段
+        1.Generator
+        2.Local  : cloud-init-local.service
+        3.Network: cloud-init.service 
+        4.Config : cloud-config.service
+        5.Final  : cloud-final.service
+
+        #Generator
+            #禁用cloud-init
+            M1: 创建文件/etc/cloud/cloud-init.disabled
+            M2: kernel参数：cloud-init=disabled
+
+        #Local: cloud-init-local.service 
+
+        #Network: cloud-init.service 
+
+        #Final: cloud-final.service
+
+    #数据源: datasource
+        userdata:用户文件、脚本等等
+        metadata:和install相关的信息
+
+
+使用：
+    #判断判断虚拟机是初始化时的第一次启动
+    
