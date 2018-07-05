@@ -1,0 +1,27 @@
+参考链接:https://en.wikipedia.org/wiki/List_of_Microsoft_Windows_versions
+
+Personal computer versions:
+#windows version         #Release version         #Latest Build
+Windows10                NT 10.0                  17134
+Windows8.1               NT 6.3                   9600
+Windows8                 NT 6.2                   9200
+Windows7                 NT 6.1                   7601
+Windows vista            NT 6.0                   6002
+Windows XP x64           NT 5.2                   3790
+Windows XP               NT 5.1                   2600
+Windows 2000             NT 5.0                   3000
+
+Server versions:
+Windows Server 2016      NT 10.0
+Windwos Server 2012R2    NT 6.3
+Widnwos Server 2012      NT 6.2
+Widnwos Server 2008R2    NT 6.1
+Windows Server 2008      NT 6.0
+Windows Server 2003R2    NT 5.2                   3790
+Windows Server 2003      NT 5.2                   3790
+Windows 2000             NT 5.0
+
+
+#查看Windows版本号
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion 
+msinfo32

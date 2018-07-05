@@ -1,0 +1,20 @@
+
+注册表操作:
+    #加载和卸载hiv文件
+    reg unload  HKEY_LOCAL_MACHINE\test
+    reg load HKEY_LOCAL_MACHINE\test C:\winpe64\mount\Windows\System32\config\SYSTEM
+
+    #
+
+查看和设置系统当前使用的字符集:
+    参考链接：https://en.wikipedia.org/wiki/Windows_code_page
+    chcp
+        Active code page
+        437          美国
+        936          中国 - 简体中文(GB2312)
+    chcp <code>
+
+查看操作系统位数：
+    HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment PROCESSOR_ARCHITECTURE
+    
+

@@ -1,0 +1,30 @@
+参考链接:https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-8.1-and-8/dn613857(v=win.10)
+
+winpe64位(windows7)
+======================Begin==========================================
+准备好驱动文件，放到目录下C:\temp\winpe
+#创建目录
+copype.cmd amd64 c:\winpe64
+#挂载镜像
+dism /Mount-Wim /Wimfile:D:\SOURCES\BOOT.WIM /index:1 /MountDir:C:\winpe64\mount
+#添加驱动
+dism /Image:C:\winpe64\mount /Add-Driver /driver:C:\temp\winpe /recurse
+(然后再拷贝所有驱动文件到driver目录下)
+dism /Commit-Wim /MountDir:C:\winpe64\mount
+dism /Unmount-Wim  /MountDir:C:\winpe64\mount /discard
+dism /Get-Drivers /Image:C:\winpe64\mount
+======================End============================================
+
+####
+dism /Get-MountedWimInfo                    #查询挂载的镜像信息
+dism /Cleanup-Wim                           #清理挂载的镜像资源，无法卸载或者挂载的时候使用
+dism /image:c:\winpe64\mount /?             #查看帮助
+dism /image:c:\winpe64\mount /Get-Drivers   #查看已添加的驱动
+dism /image:c:\winpe64\mount /Remove-Driver /Driver:oem1.inf                    #删除驱动
+dism /Online /Get-Drivers                   #查看当前挂载的镜像已添加的驱动
+dism /Add-Driver /Image:c:\winpe64\mount /Driver:"C:\SampleDriver\driver.inf"   #添加指定驱动
+
+dism /image:c\winpe64\mount /get-packages   #查看已安装的包
+dism /Image:C:\winpe64\mount /Add-Driver /driver:C:\Users\Administrator\down\vmtools\gplpv /recurse
+
+
