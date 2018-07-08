@@ -1,0 +1,264 @@
+配置IP和默认路由：
+    ifconfig <ethx> <ip> netmask <mask> up
+    route add default gw <gateway> [ethx]
+
+网卡配置文件：
+    #/etc/sysconfig/network
+        NETWORKING=yes(表示系统是否使用网络，一般设置为yes。如果设为no，则不能使用网络，而且很多系统服务程序将无法启动) 
+        HOSTNAME=centos(设置本机的主机名，这里设置的主机名要和/etc/hosts中设置的主机名对应) 
+        GATEWAY=192.168.1.1(设置本机连接的网关的IP地址。例如，网关为10.0.0.2) 
+
+    #/etc/sysconfig/network-scripts/ifcfg-INTERFACE_NAME
+        DEVICE=: 关联的设备名称，要与文件名的后半部“INTERFACE_NAME”保持一致; 
+        BOOTPROTO={static|none|dhcp|bootp}: 引导协议；要使用静态地址，使用static或none；dhcp表示使用DHCP服务器获取地址；
+        IPADDR=: IP地址
+        NETMASK=：子网掩码
+        GATEWAY=：设定默认网关；
+        ONBOOT=：开机时是否自动激活此网络接口；
+        HWADDR=： 硬件地址，要与硬件中的地址保持一致；可省；
+        USERCTL={yes|no}: 是否允许普通用户控制此接口；
+        PEERDNS={yes|no}: 是否在BOOTPROTO为dhcp时接受由DHCP服务器指定的DNS地址；
+
+本地解析配置/etc/hosts：
+    主机IP       主机名           主机别名
+    172.16.0.1   www.magedu.com  www
+
+DNS配置/etc/resolv.conf：
+    nameserver DNS_IP_1
+    nameserver DNS_IP_2
+
+    search localdomain
+    nameserver 202.117.112.3
+    nameserver 218.30.19.40
+
+    #resolv.conf的关键字
+        nameserver    #定义DNS服务器的IP地址
+        domain        #定义本地域名
+        search        #定义域名的搜索列表
+        sortlist      #对返回的域名进行排序
+
+    #nslookup 查看DNS
+        nslookup [域名]
+        nsloopup baidu.com
+
+    #dig:域名查询
+        dig baidu.com
+
+
+路由表设置：
+    #route
+        #route 命令的输出项说明
+            Destination：目标网段或者主机
+            Gateway：网关地址，”*” 表示目标是本主机所属的网络，不需要路由
+            Genmask：网络掩码
+            Flags：标记。一些可能的标记如下：
+                U -- 路由是活动的（UP）
+                H -- 目标是一个主机
+                G -- 路由指向网关
+                R -- 恢复动态路由产生的表项（标记动态路由）
+                D -- 由路由的后台程序动态地安装（已经由服务或转 port 功能设定为动态路由）
+                M -- 由路由的后台程序修改
+                A -- installed by addrconf
+                C -- 缓存的路由表项
+                ! -- 拒绝路由
+            Metric：路由距离，到达指定网络所需的中转数（linux 内核中没有使用）
+            Ref：路由项引用次数（linux 内核中没有使用）
+            Use：此路由项被路由软件查找的次数
+            Iface：该路由表项对应的输出接口
+
+        #route命令
+            #route  [add|del] [-net|-host] target [netmask Nm] [gw Gw] [[dev] If]
+            add : 添加一条路由规则
+            del : 删除一条路由规则
+            -net : 目的地址是一个网络
+            -host : 目的地址是一个主机
+            target : 目的网络或主机
+            netmask : 目的地址的网络掩码
+            gw : 路由数据包通过的网关
+            dev : 为路由指定的网络接口
+
+        #设置静态路由
+            route add -host 192.168.1.2 dev eth0 
+            route add -host 10.20.30.148 gw 10.20.30.40
+            route add -net 10.20.30.40 netmask 255.255.255.248 eth0
+            route add -net 10.20.30.48 netmask 255.255.255.248 gw 10.20.30.41
+            route add -net 192.168.1.0/24 eth1
+            route add default gw 192.168.1.1
+        #删除路由
+            route del -host 192.168.1.2 dev eth0:0
+            route del -host 10.20.30.148 gw 10.20.30.40
+            route del -net 10.20.30.40 netmask 255.255.255.248 eth0
+            route del -net 10.20.30.48 netmask 255.255.255.248 gw 10.20.30.41
+            route del -net 192.168.1.0/24 eth1
+            route del default gw 192.168.1.1
+        #基本使用
+            route -n    #不显示主机名
+            route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0     #增加一条 到达244.0.0.0的路由
+        #屏蔽路由
+            route add -net 224.0.0.0 netmask 240.0.0.0 reject       #增加一条屏蔽的路由，目的地址为 224.x.x.x 将被拒绝
+
+        #设置永久路由的方法
+            #1
+            在/etc/rc.local中用route命令添加
+
+            #2
+            vi /etc/sysconfig/static-router (通过这个脚本执行：/etc/rc.d/init.d/network)
+            any net x.x.x.x/24 gw y.y.y.y 
+
+            #debian/ubuntu
+            添加路由的脚本放到/etc/network/interfaces里执行
+                auto eth0
+                iface eth0 inet static
+                address 192.168.1.88
+                netmask 255.255.255.0
+                gateway 192.168.1.1
+                up route add -net 192.168.2.0 netmask 255.255.255.0 gw 192.168.2.1
+                down route del -net 192.168.2.0 netmask 255.255.255.0 gw 192.168.2.1
+
+            #redhat/centos/fedora
+            使用配置文件/etc/sysconfig/network-scripts/route-interface，interface可以根据实际的网卡换成网卡名，比如我要在eth0上加静态路由，那就写route-eth0
+            配置文件的格式如下：
+                ADDRESS0=X.X.X.X
+                NETMASK0=x.x.x.x
+                GATEWAY0=X.X.X.x
+            如果有多条静态路由要建立，那么继续在文件里追加，ADDRESS、NETMASK、GATEWAY后面的数字递增即可。如有2条记录：
+                ADDRESS0=X.X.X.X
+                NETMASK0=x.x.x.x
+                GATEWAY0=X.X.X.x
+                ADDRESS1=X.X.X.X
+                NETMASK1=x.x.x.x
+                GATEWAY1=X.X.X.x
+
+
+    #3种路由类型
+        #主机路由：
+            主机路由是路由选择表中指向单个IP地址或主机名的路由记录。主机路由的Flags字段为H。
+            Destination    Gateway       Genmask Flags     Metric    Ref    Use    Iface
+            -----------    -------     -------            -----     ------    ---    ---    -----
+            10.0.0.10     192.168.1.1    255.255.255.255   UH       0    0      0    eth0
+
+        #网络路由：
+            网络路由是代表主机可以到达的网络。网络路由的Flags字段为N。
+            Destination    Gateway       Genmask Flags    Metric    Ref     Use    Iface
+            -----------    -------     -------         -----    -----   ---    ---    -----
+            192.19.12     192.168.1.1    255.255.255.0      UN      0       0     0    eth0
+
+        #默认路由：
+            当主机不能在路由表中查找到目标主机的IP地址或网络路由时，数据包就被发送到默认路由（默认网关）上。
+            Destination    Gateway       Genmask Flags     Metric    Ref    Use    Iface
+            -----------    -------     ------- -----      ------    ---    ---    -----
+            default       192.168.1.1     0.0.0.0    UG       0        0     0    eth0
+
+设置包转发：
+    #临时启用，重启后失效
+        sysctl -w net.ipv4.ip_forward=1
+        echo 1 > /proc/sys/net/ipv4/ip_forward
+    #永久生效
+        vi /etc/sysctl.conf
+        net.ipv4.ip_forward = 1
+    #当前系统是否支持包转发
+        sysctl net.ipv4.ip_forward
+
+
+网络基础:
+    #7层模型
+        应用层：Telnet、FTP、HTTP、SNMP、DNS、DHCP
+        表示层：URL加密、口令加密、图片编解码
+        会话层：服务器验证用户登录、断点续传
+        传输层：TCP、UDP、SPX、进程、端口（socket）
+        网络层：路由器、多层交换机、防火墙、IP、IPX、RIP、OSPF
+        数据链路层：网卡、网桥、二层交换机
+        物理层：中继器、集线器、网线、HUB、RJ-45
+
+    物理层：（比特）
+        主要定义物理设备标准，如网线的接口类型、光纤的接口类型、各种传输介质的传输速率等。
+        主要作用是将数据最终编码为用 0、1 标识的比特流，通过物理介质传输，这一层的数据叫做比特。
+
+    数据链路层：(帧) 网桥、交换机
+        主要将接收到的数据进行 MAC 地址（网卡地址）的封装与解封装。
+        常把这一层的数据叫做帧。这一层常工作的设备是交换机。
+        #协议
+            SDLC、HDLC、PPP、STP、帧中继
+
+    网络层：（数据包）路由器
+        主要将接收到的数据进行 IP 地址的封装与解封装。
+        常把这一层的数据叫做数据包。这一层设备是路由器。
+        #协议
+            ICMP IGMP IP（IPV4 IPV6） ARP RARP
+
+    传输层：（段）网关
+        定义了一些数据传输的协议和端口号。
+        主要将接收的数据进行分段和传输，到达目的地址后在进行重组。
+        常把这一层的数据叫做段。
+
+    会话层：
+        通过传输层建立数据传输的通路。
+        主要在系统之间发起会话或者接收会话请求。
+
+    表示层：
+        主要进行对接收数据的解释、加密与解密、压缩与解压缩。
+        确保一个系统的应用层发送的数据能被另一个系统的应用层识别。
+
+    应用层：
+        主要是为一些终端应用程序提供服务。直接面对着用户的。
+
+TCP的三次握手、四次挥手：
+    #三次握手：
+        第一次握手：建立连接时,客户端发送syn包(Synchronize Sequence Numbers)(syn=j)到服务器,并进入SYN_SEND状态,等待服务器确认;
+        第二次握手：服务器收到syn包,必须确认客户的SYN（ack=j+1）,同时自己也发送一个SYN包（syn=k）,即SYN+ACK包,此时服务器进入SYN_RECV状态；
+        第三次握手：客户端收到服务器的SYN＋ACK包,向服务器发送确认包ACK(ack=k+1),此包发送完毕,客户端和服务器进入ESTABLISHED状态,完成三次握手
+        
+    #四次挥手：
+        第一次挥手：Client发送一个FIN，用来关闭Client到Server的数据传送，Client进入FIN_WAIT_1状态。
+        第二次挥手：Server收到FIN后，发送一个ACK给Client，确认序号为收到序号+1（与SYN相同，一个FIN占用一个序号），Server进入CLOSE_WAIT状态
+        第三次挥手：Server发送一个FIN，用来关闭Server到Client的数据传送，Server进入LAST_ACK状态。
+        第四次挥手：Client收到FIN后，Client进入TIME_WAIT状态，接着发送一个ACK给Server，确认序号为收到序号+1，Server进入CLOSED状态，完成四次挥手。
+
+    #为什么建立连接是三次握手，而关闭连接却是四次挥手呢？
+        这是因为服务端在LISTEN状态下，收到建立连接请求的SYN报文后，把ACK和SYN放在一个报文里发送给客户端。而关闭连接时，当收到对方的FIN报文时，仅仅表示对方不再发送数据了但是还能接收数据，己方也未必全部数据都发送给对方了，所以己方可以立即close，也可以发送一些数据给对方后，再发送FIN报文给对方来表示同意现在关闭连接，因此，己方ACK和FIN一般都会分开发送。
+
+
+#tcpdump
+    #参数
+        -n：不把网络地址转换成名字
+        -i：指定监听的网络接口
+
+    #条件表达式
+        否定操作 (`!' 或 `not')
+        与操作(`&&' 或 `and')
+        或操作(`||' 或 `or')
+
+
+    #样例
+    tcpdump -i eth1 host 192.168.1.1        #抓取所有经过 eth1，目的或源地址是 192.168.1.1 的网络数据
+    tcpdump -i eth1 src host 192.168.1.1    #源地址
+    tcpdump -i eth1 dst host 192.168.1.1    #目的地址
+    tcpdump -i eth1 port 25                 #抓取所有经过 eth1，目的或源端口是 25 的网络数据
+    tcpdump -i eth1 src port 25             #源地址
+    tcpdump -i eth1 dst port 25             #目的地址
+    tcpdump -i eth1 net 192.168
+    tcpdump -i eth1 src net 192.168
+    tcpdump -i eth1 dst net 192.168
+    tcpdump -i eth1 arp                     #协议过滤
+    tcpdump -i eth1 ip
+    tcpdump -i eth1 tcp
+    tcpdump -i eth1 udp
+    tcpdump -i eth1 icmp
+
+    tcpdump tcp port 23 and host 210.27.48.1    #获取主机210.27.48.1接收或发出的telnet包
+    tcpdump udp port 123                        #对本机的udp 123 端口进行监视 123 为ntp的服务端口
+
+    tcpdump -i eth1 'tcp[tcpflags] = tcp-syn'   #只抓 SYN 包
+    tcpdump -i eth1 'tcp[tcpflags] & tcp-syn != 0 and tcp[tcpflags] & tcp-ack != 0'     # 抓 SYN, ACK
+    tcpdump -i eth1 '((port 25) and (tcp[(tcp[12]>>2):4] = 0x4d41494c))'                #抓取数据区开始为"MAIL"的包，"MAIL"的十六进制为 0x4d41494c
+    tcpdump -i eth1 'tcp[(tcp[12]>>2):4] = 0x47455420'                                  #抓 HTTP GET 数据，"GET "的十六进制是 47455420
+    tcpdump -i eth1 'tcp[(tcp[12]>>2):4] = 0x5353482D'                                  #抓 SSH 返回，"SSH-"的十六进制是 0x5353482D
+    tcpdump -i eth1 '(tcp[(tcp[12]>>2):4] = 0x5353482D) and (tcp[((tcp[12]>>2)+4):2]    #抓老版本的 SSH 返回信息，如"SSH-1.99.."
+    tcpdump -i eth0 '((port 8000) and (tcp[(tcp[12]>>2):4]=0x47455420))' -nnAl -w /tmp/GET.log  #实时抓取端口号8000的GET包，然后写入GET.log
+
+    tcpdump -i eth1 udp dst port 53         #抓 DNS 请求数据
+
+    #条件表达式样例
+    tcpdump -i eth1 '((tcp) and (port 80) and ((dst host 192.168.1.254) or (dst host 192.168.1.200)))'  #过滤80端口的TCP协议，目的地址是254或200
+    tcpdump -i eth1 '((icmp) and ((ether dst host 00:01:02:03:04:05)))'                             #过滤icmp协议，并且MAC地址为00:01:02:03:04:05
+    tcpdump -i eth1 '((tcp) and ((dst net 192.168) and (not dst host 192.168.1.200)))'              #过滤协议为TCP,目的网络为192.168的数据，这之中除去192.168.1.200的主机的数据
