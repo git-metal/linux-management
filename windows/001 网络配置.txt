@@ -1,0 +1,5 @@
+
+netsh
+    #
+    netsh interface show interface
+    netsh interface ip set address "本地连接" static 10.25.35.35 255.255.255.0 10.25.35.7 1

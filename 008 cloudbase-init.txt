@@ -1,0 +1,4 @@
+cloudbase git:https://github.com/openstack/cloudbase-init
+
+
+

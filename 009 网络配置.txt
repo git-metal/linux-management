@@ -1,0 +1,4 @@
+
+ifconfig <ethx> <ip> netmask <mask> up
+route add default gw <gateway> [ethx]
+
