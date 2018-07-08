@@ -3,3 +3,9 @@ netsh
     #
     netsh interface show interface
     netsh interface ip set address "本地连接" static 10.25.35.35 255.255.255.0 10.25.35.7 1
+
+
+    #端口转发
+    netsh interface portproxy show all          #可以查看存在的转发
+    netsh interface portproxy add v4tov4 listenport=8888 connectaddress=<ip> connectport=22   #通过8888端口，转发目的地端口：22的数据包
+    netsh interface portporxy delete v4tov4 listenaddress=ip listenport=8888    #指定监听ip和端口可以删除
