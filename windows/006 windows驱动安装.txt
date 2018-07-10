@@ -1,0 +1,14 @@
+
+参考：https://docs.microsoft.com/en-us/windows-hardware/drivers/install/roadmap-for-device-and-driver-installation--windows-vista-and-later-
+
+
+概念
+    硬件ID
+    Driver Path:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\DevicePath 
+
+
+    #驱动安装文件：
+        .inf:安装时拷贝到%SystemRoot%\inf 
+        .sys:安装时拷贝到%SystemRoot%\system32\drivers
+        .cat:数字证书文件，Windows Hardware Quality Lab (WHQL) 
+

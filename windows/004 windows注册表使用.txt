@@ -1,4 +1,17 @@
 
+注册表文件：
+    #有六个主要分支, 每一个包含储存在注册表中的信息的一个特定部分。它们是: 
+        HKEY_CLASSES_ROOT - 这个主分支包含支持拖放功能, OLE 信息, Windows 快捷方式和 Windows 用户界面核心方面的所有文件关联映射。 
+        HKEY_CURRENT_USER - 这个主分支链接到 HKEY_USERS 中与当前登录到 PC 的用户相对应的部分, 包含诸如登录名称, 桌面设置和开始菜单设置之类的信息。 
+        HKEY_LOCAL_MACHINE - 这个主分支包含在一台给定 PC 上的硬件类型, 软件以及其他参数等计算机详细信息, 这些信息适用于登录到这台计算机的所有用户。 
+        HKEY_USERS - 这个主分支包含每一个计算机用户的单独参数设置, 每一个用户由主分支下的一个 SID 子键代表。 
+        HKEY_CURRENT_CONFIG - 这个主分支链接到 HKEY_LOCAL_MACHINE 中与当前硬件配置相对应的部分。 
+        HKEY_DYN_DATA - 这个主分支指向 HKEY_LOCAL_MACHINE 部分, 由 Windows 即插即用功能使用, 这个部分是动态变化的, 当添加设备或者设备从系统中删除时, 它将相应发生更改。
+    #相关文件
+        C:\Windows\System32\config                                  #注册表文件
+        C:\Windows\System32\config\systemprofile\ntuser.dat         #每个用户的配置信息
+
+
 注册表操作:
     #加载和卸载hiv文件
     reg unload  HKEY_LOCAL_MACHINE\test
