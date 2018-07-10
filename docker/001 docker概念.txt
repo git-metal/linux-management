@@ -1,0 +1,13 @@
+官方帮助文档：https://docs.docker.com/get-started/
+
+概念：
+    Docker Community Edition：社区版
+    Docker Enterprise Edition ：企业版，收费，功能更多
+
+    Image(镜像)：包含应用的文件
+    Container(容器)：容器其实就是从镜像创建的一个实例（进程）
+    Repository(仓库)：存放镜像
+
+    #配置模式：
+        loop-lvm：使用OS层面离散的文件来构建精简池(thin pool)
+        direct-lvm：使用块设备来构建精简池来存放镜像和容器的数据 （推荐使用）

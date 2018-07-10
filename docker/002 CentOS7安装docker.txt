@@ -1,0 +1,102 @@
+参考：https://docs.docker.com/install/linux/docker-ce/centos/#install-using-the-repository
+
+
+安装步骤 DOCKER CE：(官方yum源)
+    #安装基本的组件
+    yum install -y yum-utils device-mapper-persistent-data lvm2
+
+    #添加docker yum源
+    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+    #允许edge和test源（可选）
+    yum-config-manager --enable docker-ce-edge  #yum-config-manager --disable docker-ce-edge
+    yum-config-manager --enable docker-ce-test
+
+    #查看所有仓库中所有docker版本
+    yum list docker-ce --showduplicates | sort -r
+
+    #安装docker ce
+    yum install docker-ce                    #repo中默认只开启stable仓库
+    yum install docker-ce-<VERSION STRING>   #安装指定版本
+
+    #查看版本
+    docker version
+
+    #启动、停止
+    systemctl start docker
+    systemctl stop docker
+    systemctl status docker
+
+
+基本使用：
+    ## List Docker CLI commands
+    docker
+    docker container --help
+
+    ## Display Docker version and info
+    docker --version
+    docker version
+    docker info
+
+    ## Execute Docker image
+    docker run hello-world
+
+    ## List Docker images
+    docker image ls
+
+    ## List Docker containers (running, all, all in quiet mode)
+    docker container ls
+    docker container ls --all
+    docker container ls -aq
+
+
+device mapper配置：
+    参考：https://docs.docker.com/storage/storagedriver/device-mapper-driver/#increase-capacity-on-a-running-device
+    #准备一块磁盘 /dev/vdb 50G
+    
+    #创建vg : docker
+    pvcreate /dev/vdb
+    vgcreate docker /dev/vdb
+
+    #创建pool : thinpool,thinpoolmeta
+    #数据LV大小为VG的95%,元数据LV大小为VG的1%,剩余的空间用来自动扩展
+    lvcreate --wipesignatures y -n thinpool docker -l 95%VG
+    lvcreate --wipesignatures y -n thinpoolmeta docker -l 1%VG
+
+    #将pool转换为thinpool
+    lvconvert -y --zero n -c 512K --thinpool docker/thinpool --poolmetadata docker/thinpoolmeta
+
+    #配置thinpool
+        #配置池的自动扩展
+        vi /etc/lvm/profile/docker-thinpool.profile
+            #文件内容：
+            activation {
+                thin_pool_autoextend_threshold=80
+                thin_pool_autoextend_percent=20
+            }
+        #应用配置变更
+        lvchange --metadataprofile docker-thinpool docker/thinpool
+
+        #状态监控检查
+        lvs -o+seg_monitor
+
+    #配置docker
+        #清理之前的docker环境
+            mkdir /var/lib/docker.bk
+            mv /var/lib/docker/* /var/lib/docker.bk
+
+        #添加配置文件
+        vim /etc/docker/daemon.json
+            {
+                "storage-driver": "devicemapper",
+                "storage-opts": [
+                "dm.thinpooldev=/dev/mapper/docker-thinpool",
+                "dm.use_deferred_removal=true",
+                "dm.use_deferred_deletion=true"
+                ]
+            }
+
+    #启动docker
+    systemctl start docker
+    docker info
+
