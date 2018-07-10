@@ -1,0 +1,21 @@
+参考：
+    #Linux 内核中的 Device Mapper 机制
+    https://www.ibm.com/developerworks/cn/linux/l-devmapper/
+
+
+内核部分：
+    概念：
+        mapped device:是一个逻辑抽象，可以理解成为内核向外提供的逻辑设备，它通过映射表描述的映射关系和 target device 建立映射
+        映射表:
+        target device:Target device 表示的是 mapped device 所映射的物理空间段
+
+        linear(线性):按顺序分配
+        striped(条带):交错分配
+        mirror(镜像):
+        thin:按需分配数据块，删除时也回收数据块，提高存储空间利用率
+        thin-pool: 分data设置和meta设备，data设备存储的全是数据，没有任何元数据
+
+用户空间：
+    device mapper库:Device mapper库就是对ioctl、用户空间创建删除device mapper逻辑设备所需必要操作的封装
+    dmsetup工具:dmsetup是一个提供给用户直接可用的创建删除device mapper设备的命令行工具
+
