@@ -1,0 +1,21 @@
+
+参考：https://github.com/s3fs-fuse/s3fs-fuse
+
+
+安装：（CentOS7.x）
+    yum install automake fuse fuse-devel gcc-c++ git libcurl-devel libxml2-devel make openssl-devel
+    git clone https://github.com/s3fs-fuse/s3fs-fuse.git
+    cd s3fs-fuse
+    ./autogen.sh
+    ./configure
+    make
+    make install
+
+使用：
+    配置AK/SK:
+        echo <AK>:<SK> > /etc/passwd-s3fs
+    挂载：
+        #华为云：
+        s3fs bucket-name /mnt/s3fs -o url=https://obs.cn-east-2.myhwclouds.com/
+
+    

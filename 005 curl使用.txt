@@ -9,6 +9,7 @@ curl参数：
     -H:
     -I:
     -i:
+    -T:
 
 #获取Token
 curl -I -X POST -d '{
