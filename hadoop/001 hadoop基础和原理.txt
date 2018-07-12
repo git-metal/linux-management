@@ -1,0 +1,19 @@
+
+学习路线：
+    https://blog.csdn.net/sinat_38648491/article/details/79032396
+    
+Hadoop生态架构技术：
+    MapReduce：MapReduce分布式离线计算框架
+    HDFS：Hadoop分布式文件系统(HDFS)是一个高度容错性的系统
+    Yarn：Yarn是一个资源调度平台，主要负责给任务分配资源
+    Hive：Hive是一个数据仓库，所有的数据都是存储在HDFS上的。使用Hive主要是写Hql，非常类似于Mysql数据库的Sql。其实Hive在执行Hql，底层在执行的时候还是执行的MapRedce程序。
+    Spark：Spark 是专为大规模数据处理而设计的快速通用的计算引擎，其是基于内存的迭代式计算。Spark 保留了MapReduce 的优点，而且在时效性上有了很大提高。
+    Spark Streaming：Spark Streaming是实时处理框架，数据是一批一批的处理。
+    Spark Hive：基于Spark的快速Sql检索。Spark作为Hive的计算引擎，将Hive的查询作为Spark的任务提交到Spark集群上进行计算，可以提高Hive查询的性能
+    Storm：Storm是一个实时计算框架，和MR的区别就是，MR是对离线的海量数据进行处理，而Storm是对实时新增的每一条数据进行处理，是一条一条的处理，可以保证数据处理的时效性。
+    Zookeeper：Zookeeper是很多大数据框架的基础，它是集群的管理者。监视着集群中各个节点的状态根据节点提交的反馈进行下一步合理操作。
+    Hbase：Hbase是一个Nosql 数据库，是一个Key-Value类型的数据库，是高可靠、面向列的、可伸缩的、分布式的数据库。适用于非结构化的数据存储，底层的数据存储在HDFS上。
+    Kafka：kafka是一个消息中间件，在工作中常用于实时处理的场景中，作为一个中间缓冲层。
+    Flume：Flume是一个日志采集工具，常见的就是采集应用产生的日志文件中的数据，一般有两个流程。一个是Flume采集数据存储到Kafka中，方便Storm或者SparkStreaming进行实时处理。另一个流程是Flume采集的数据存储到HDFS上，为了后期使用hadoop或者spark进行离线处理。
+
+
