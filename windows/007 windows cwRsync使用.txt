@@ -1,6 +1,7 @@
 
 参考博客:
     Windows远程数据同步工具cwRsync(附下载地址)： https://www.cnblogs.com/l1pe1/p/4901031.html
+    下载地址:http://www.xiazaiba.com/html/4325.html
 
 简介:
     cwRsync是Rsync在Windows上的实现版本，Rsync通过使用特定算法的文件传输技术，可以在网络上传输只修改了的文件。
