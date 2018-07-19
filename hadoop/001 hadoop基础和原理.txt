@@ -16,4 +16,16 @@ Hadoop生态架构技术：
     Kafka：kafka是一个消息中间件，在工作中常用于实时处理的场景中，作为一个中间缓冲层。
     Flume：Flume是一个日志采集工具，常见的就是采集应用产生的日志文件中的数据，一般有两个流程。一个是Flume采集数据存储到Kafka中，方便Storm或者SparkStreaming进行实时处理。另一个流程是Flume采集的数据存储到HDFS上，为了后期使用hadoop或者spark进行离线处理。
 
+官网: http://hadoop.apache.org/
+
+Hadoop 相关技术:
+    #Hbase
+        Nosql数据库，Key-Value存储
+        最大化利用内存
+    #HDFS
+        hadoop distribute file system(分布式文件系统)
+        最大化利用磁盘
+    #MapReduce
+        编程模型，主要用来做数据分析
+        最大化利用CPU
 
