@@ -1,0 +1,31 @@
+
+参考博客:
+    Windows远程数据同步工具cwRsync(附下载地址)： https://www.cnblogs.com/l1pe1/p/4901031.html
+
+简介:
+    cwRsync是Rsync在Windows上的实现版本，Rsync通过使用特定算法的文件传输技术，可以在网络上传输只修改了的文件。
+    cwRsync主要用于Windows上的远程文件同步备份和同步，它包含Cygwin DLL和适用Cygwin版本的Rsync两部分。
+    cwRsync分为Server和Client
+
+
+Server安装使用:
+    配置：
+        配置文件rsyncd.conf（默认位置：C:\Program Files\ICW\）
+        uid = 0     #不限定用户
+        gid = 0     #不限定组
+
+        [test] #认证的模块名，在client端需要指定使用
+        path = /cygdrive/d/test #需要做镜像同步的目录，如d:/test
+        read only = false
+        transfer logging = yes
+    帮助文档：
+        C:\Program Files\ICW\doc\rsyncd.conf.html
+
+Client安装使用：
+    #从client传到server
+    rsync -avzHP --progress --delete /cygdrive/d/test rsync://192.168.85.236:873/test
+        注意：如果不以/结尾(/cygdrive/d/test)那么server端还会再创建test目录
+
+    #从server拉数据
+    rsync -avzHP --progress --delete rsync://192.168.85.236:873/test /cygdrive/d/test
+    
