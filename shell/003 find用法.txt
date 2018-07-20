@@ -1,0 +1,58 @@
+参考：
+    #Linux下强大的查找命令find 用法和常见用例
+    https://www.linuxidc.com/Linux/2018-07/153184.htm
+
+find命令的格式：
+    find pathname -options [-print -exec -ok ...]
+
+find命令参数：
+    pathname: find命令所查找的目录路径
+    -print：find命令将匹配的文件输出到标准输出
+    -print0:输出但是不换行
+    -exec:find命令对匹配的文件执行该参数所给出的shell命令,为查找完成以后的操作。 #-exec ls -l {} \;
+        find . -exec ls -l {} \;
+    -ok:和-exec的作用相同，只不过以一种更为安全的模式来执行该参数所给出的shell命令，在执行每一个命令之前，都会给出提示，让用户来确定是否执行，格式为：-ok ls -l {} \;
+        find . -ok ls -l {} \;
+
+find命令选择： -options
+    -name: 按照文件名查找文件           # find -name *test*
+    -perm: 按照文件权限来查找文件       # find -perm 644 -print -exec ls -l {} \;
+    -prune:使用这一选项可以使find命令不在当前指定的目录中查找，如果同时使用-depth选项，那么-prune将被find命忽略。
+        #排除目录
+        find /proc -prune -name "*test*" -print 
+    -user:按照文件属主来查找文件          # find -user root
+    -group:按照文件所属的组来查找文件      # find -group root
+    -mtime -n +n: 按照文件的更改时间来查找文件， - n表示文件更改时间距现在n天以内，+ n表示文件更改时间距现在n以前.
+        find -mtime -5
+        find -mtime +5
+    -atime:
+    -ctime:
+    -nogroup:查找无有效所属组的文件，即该文件所属的组在/etc/groups中不存在
+    -nouser：查找无有效属主的文件，即该文件的属主在/etc/passwd中不存在
+    -newer file:查找更改时间与文件file更改时间最近的文件
+    -type: 查找某一类型的文件
+        b - 块设备文件； 
+        d - 目录； 
+        c - 字符设备文件； 
+        p - 管道文件； 
+        l - 符号链接文件； 
+        f - 普通文件
+        s - Socket
+        find -type f
+    -size  n[cwbkMG]
+        n c代表以字节计即查找字节为n的文件，+n(表示大于n字节的文件)，-n(表示小于n字节的文件);
+        b:512字节
+        c:1字节
+        w:2字节
+        k:for Kilobytes (units of 1024 bytes)
+        M:for Megabytes (units of 1048576 bytes)
+        G:for Gigabytes (units of 1073741824 bytes)
+        find -size +100c
+    -depth：在查找文件时，首先查找当前目录中的文件，然后再在其子目录中查找;
+    -fstype：查找位于某一类型文件系统中的文件
+    -mount：在查找文件时不跨越文件系统mount点
+    -follow：如果find命令遇到符号链接文件，就跟踪至链接所指向的文件;
+    -cpio：对匹配的文件使用cpio命令，将这些文件备份到磁带设备中。
+
+
+
