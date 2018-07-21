@@ -1,0 +1,9 @@
+
+1. bcdedit /enum {current} /v
+    bios: winload.exe
+    uefi: winload.efi
+
+2. 查看日志文件: C:\Windows\Panther\setupact.log
+    Detected boot environment: BIOS
+    Detected boot environment: EFI
+
