@@ -1,0 +1,39 @@
+
+官网：https://www.elastic.co/
+帮助文档：https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html
+
+安装：
+    1. 安装JDK
+        #debian系统安装jdk
+            https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-debian-8
+
+        #通用
+            JDK路径： /usr/local/lib/jdk8
+            vi /etc/profile
+                export JAVA_HOME=/usr/local/lib/jdk8
+                export PATH=$PATH:$JAVA_HOME/bin
+            #测试Java
+                java –version
+                javac
+
+    2. 安装ES
+        https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html
+        #zip
+        wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.1.zip
+        adduser esuser #elasticsearch 不让用root用户直接运行，所以要创建新用户
+        chown esuser:esuser elasticsearch-6.3.1.zip 
+        unzip elasticsearch-6.3.1.zip
+
+    4. 运行ES
+        ./bin/elasticsearch
+        curl http://127.0.0.1:9200/ #测试是否正常
+
+        ./bin/elasticsearch -d -p pid   #在后台运行，保持进程id到文件pid
+        #日志文件：$ES_HOME/logs/
+        #配置文件：$ES_HOME/config/elasticsearch.yml
+        #默认端口：9200
+
+    5. 配置远程访问(默认只允许本机访问)
+        vim config/elasticsearch.yml
+            network.host: 0.0.0.0
+
