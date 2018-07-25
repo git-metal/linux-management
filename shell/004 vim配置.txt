@@ -1,0 +1,5 @@
+
+/root/.vimrc
+    set nu
+    set ts=4
+    set expandtab
