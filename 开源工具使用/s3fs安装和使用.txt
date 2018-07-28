@@ -14,6 +14,7 @@
 使用：
     配置AK/SK:
         echo <AK>:<SK> > /etc/passwd-s3fs
+        chmod 600 /etc/passwd-s3fs
     挂载：
         #华为云：
         s3fs bucket-name /mnt/s3fs -o url=https://obs.cn-east-2.myhwclouds.com/
