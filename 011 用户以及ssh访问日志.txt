@@ -1,0 +1,45 @@
+    
+#时间
+    uptime      #查看系统启动时间
+    date        #查看当前时间
+
+#查看当前系统运行级别
+    runlevel : 返回上一次和当前的系统运行级别
+        $ N 3  #上一次运行级别未知，当前运行级别3
+    who -r
+
+#查看当前登录的用户
+    who     #查看所有登录的用户
+
+
+#查看命令历史记录
+    history
+        历史记录默认保存在 ~/.bash_history 
+    #修改历史记录的保留最大数
+        vim /etc/bashrc
+            export HISTSIZE=1000
+    #记录命令的时间
+        vim /etc/bashrc
+            export HISTTIMEFORMAT="%F %T `whoami` "
+    #vi ~/.bash_profile
+        参考：https://blog.csdn.net/wjciayf/article/details/80362802
+        HISTFILE=/var/history/$USER-$UID.log    #更改保存历史记录文件
+        HISTCONTROL=ignoredups                  #从命令历史中剔除连续重复的条目
+        HISTCONTROL=erasedups                   #清除整个命令历史中的重复条目
+        HISTCONTROL=ignorespace                 #使用 HISTCONTROL 强制 history不记住特定的命令
+            #在不想被记住的命令前面输入一个空格
+            $  pwd
+            $ ls
+        PROMPT_COMMAND="history -a"             #实时追加history，不必等用户退出才将内存中的history记录到文件
+            history -a 是追加当前session的历史命令记录到history文件
+            history -w 则是会用当前session的历史命令替换history文件
+        shopt -s histappend                     #用户打开多个终端（产生多个session）情况下，共享history
+
+
+#查看ssh日志
+    tailf /var/log/messages     #/var/log/messages中会记录用户登录登出时间
+    less /var/log/secure        #secure中记录了ssh连接过程
+
+#linux系统日志
+
+
