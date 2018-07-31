@@ -1,0 +1,58 @@
+
+#cp
+cp -f test /root             #拷贝test文件到/root目录下
+cp -f test /root/aaa.log     #拷贝test文件并重命名为aaa.log
+cp -fR test/ /root           #拷贝test目录到/root下
+cp -fR test/ /root/abc       #拷贝test目录到/root/abc下，test目录重命名为abc
+
+#scp
+scp -r config root@<ip>:/root   #拷贝config目录到远程/root目录下
+
+#tar
+    #拷贝指定目录的所有文件
+    tar --one-file-system --sparse -C /boot/ -cf - . | ssh  root@<ip>  tar --numeric-owner --delay-directory-restore  -C /mnt/xvda1  -xf -
+
+    #排除文件和目录
+        --exclude=./proc/* --exclude=./sys/* --exclude=./media/* --exclude=./lost+found/* --exclude=./var/lib/ntp/proc/*
+        #从文件中排除指定文件和目录
+        --exclude-from=/data/exclude_file
+            ./boot/System.map-3.10.0-514.el7.x86_64     #文件
+            ./boot/grub/*                               #目录
+
+    #拷贝当前目录
+    tar -cf - * | ssh root@114.116.95.80 tar -xf - -C /data
+    tar -cf - * test.img | pv -s $(du -sb . | awk '{print $1}') | ssh root@114.116.95.80 tar -xf - -C /data
+
+    #拷贝指定文件
+    tar -cf - * test.img | ssh root@114.116.95.80 tar -xf - -C /data
+    tar -cf - test.img | pv | ssh root@114.116.95.80 tar -xf - -C /data
+
+    #压缩
+    time tar -cf - 100MB.img | pv -pte -s $(du -sb 100MB.img | awk '{print $1}')| lz4 | ssh root@114.116.95.80 "lz4 -d | tar -xC /data"
+    
+#rsync
+    #同步指定目录
+    rsync -avHP --inplace --one-file-system / root@<ip>:/data 
+
+    #参数
+        -avHP --delete --one-file-system --numeric-ids --inplace 
+        --delete
+        --sparse
+
+    #排除目录
+        --exclude=/dev/* --exclude=/mnt/* --exclude=/var/lib/ntp/proc/* --exclude=/lost+found/* --exclude=/tmp/* --exclude=/sys/* --exclude=/media/* --exclude=/proc/*
+
+#限制网卡速率
+
+    #1MB
+    /sbin/tc qdisc del dev eth0 root
+    /sbin/tc qdisc add dev eth0 root tbf rate 208kbit latency 50ms burst 100kb
+
+    #1MB
+    tc qdisc del dev eth0 root
+    tc class add dev eth0 parent 1: classid 1:1 htb rate 10kbps
+    tc class add dev eth0 parent 1:1 classid 1:11 htb rate 10kbps
+
+    #10MB
+    tc class add dev eth0 parent 1: classid 1:1 htb rate 100kbps
+    tc class add dev eth0 parent 1:1 classid 1:11 htb rate 100kbps

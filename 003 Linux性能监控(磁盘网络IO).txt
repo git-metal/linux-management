@@ -1,0 +1,11 @@
+
+
+#网络
+    #nethogs 
+        nethogs eth0
+
+    #iftop 
+        iftop -i eth0 -P
+
+    #tcpdump
+
