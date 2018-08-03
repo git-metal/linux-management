@@ -2,6 +2,14 @@
     ifconfig <ethx> <ip> netmask <mask> up
     route add default gw <gateway> [ethx]
 
+配置dhcp：
+    DEVICE=xxx
+    BOOTPROTO=dhcp
+    ONBOOT=yes
+    TYPE=Ethernet
+    #通过dhclient获取IP
+        dhclient eth0
+
 网卡配置文件：
     #/etc/sysconfig/network
         NETWORKING=yes(表示系统是否使用网络，一般设置为yes。如果设为no，则不能使用网络，而且很多系统服务程序将无法启动) 
@@ -18,6 +26,7 @@
         HWADDR=： 硬件地址，要与硬件中的地址保持一致；可省；
         USERCTL={yes|no}: 是否允许普通用户控制此接口；
         PEERDNS={yes|no}: 是否在BOOTPROTO为dhcp时接受由DHCP服务器指定的DNS地址；
+        TYPE=Ethernet
 
 本地解析配置/etc/hosts：
     主机IP       主机名           主机别名
