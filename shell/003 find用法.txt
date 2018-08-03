@@ -55,4 +55,10 @@ find命令选择： -options
     -cpio：对匹配的文件使用cpio命令，将这些文件备份到磁带设备中。
 
 
+    #例子
+        #查看所有文件中包含某个字符串的文件
+        find <directory> -type f -name "*.c" | xargs grep "<strings>"
+        grep -lr "THREAD_SIZE" arch/x86/include/asm/*
+        find . | xargs grep "xxxx"
+        
 
