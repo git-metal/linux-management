@@ -32,7 +32,10 @@ scp -r config root@<ip>:/root   #拷贝config目录到远程/root目录下
     
 #rsync
     #同步指定目录
-    rsync -avHP --inplace --one-file-system / root@<ip>:/data 
+    rsync -avHP --inplace --one-file-system / root@<ip>:/data
+
+    #指定ssh私钥
+    rsync -avHP -e 'ssh -i ssh-rsa-test -o StrictHostKeyChecking=no' 100MB.img root@114.116.95.80:/data
 
     #参数
         -avHP --delete --one-file-system --numeric-ids --inplace 
