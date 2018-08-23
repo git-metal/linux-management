@@ -1,0 +1,38 @@
+
+参考:
+    https://en.wikipedia.org/wiki/Windows_NT_startup_process
+
+Windows XP|Windows 2003：
+    Boot.ini + NTLDR -> ntoskrnl.exe
+
+Windows 7之后:
+    BootMgr + BCD -> winload.exe -> ntoskrnl.exe
+
+
+UEFI启动:
+    BootMgfw.efi + BCD -> winload.exe -> ntoskrnl.exe
+
+CD-ROM启动:
+    SETUPLDR.BIN
+
+Windwos启动：
+    -> BIOS 
+    -> (Boot.ini + NTLDR) or (BootMgr + BCD)
+    #Loading the Windows NT kernel
+    -> The following files are loaded sequentially
+        ntoskrnl.exe (the kernel)
+        hal.dll (type of hardware abstraction layer)
+        kdcom.dll (Kernel Debugger HW Extension DLL)
+        bootvid.dll (for the windows logo and side-scrolling bar)
+        config\system (one of the registry hives)
+    -> 选择ControlSet (HKLM\SYSTEM\Select)
+    -> 启动服务以及服务的启动顺序
+        HKLM\SYSTEM\CurrentControlSet\Services
+        HKLM\SYSTEM\CurrentControlSet\Control\ServiceGroupOrder
+    -> 
+
+
+驱动的启动类型:
+    Boot: 启动内核之前必须的驱动
+    System: 在boot driver之后加载，由内核加载
+    Automatic:系统GUI启动之后加载
