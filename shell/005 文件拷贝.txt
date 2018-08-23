@@ -18,6 +18,7 @@ scp -r config root@<ip>:/root   #拷贝config目录到远程/root目录下
         --exclude-from=/data/exclude_file
             ./boot/System.map-3.10.0-514.el7.x86_64     #文件
             ./boot/grub/*                               #目录
+            ./boot/grub2                                #目录, grub2后面加/则不生效
 
     #拷贝当前目录
     tar -cf - * | ssh root@114.116.95.80 tar -xf - -C /data
@@ -33,6 +34,7 @@ scp -r config root@<ip>:/root   #拷贝config目录到远程/root目录下
 #rsync
     #同步指定目录
     rsync -avHP --inplace --one-file-system / root@<ip>:/data
+    rsync -avHP --inplace --one-file-system /boot/ root@<ip>:/mnt/data
 
     #指定ssh私钥
     rsync -avHP -e 'ssh -i ssh-rsa-test -o StrictHostKeyChecking=no' 100MB.img root@114.116.95.80:/data
@@ -44,6 +46,11 @@ scp -r config root@<ip>:/root   #拷贝config目录到远程/root目录下
 
     #排除目录
         --exclude=/dev/* --exclude=/mnt/* --exclude=/var/lib/ntp/proc/* --exclude=/lost+found/* --exclude=/tmp/* --exclude=/sys/* --exclude=/media/* --exclude=/proc/*
+        #从文件中排除指定文件和目录
+        --exclude-from=/data/exclude_file
+            /boot/System.map-3.10.0-514.el7.x86_64     #文件
+            /boot/grub/*                               #目录 （目的地会有grub目录）
+            /boot/grub2                                #目录, grub2后面加/也可以生效 （目的地不会有grub2目录）
 
 #限制网卡速率
 
