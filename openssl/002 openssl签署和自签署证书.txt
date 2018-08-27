@@ -1,0 +1,21 @@
+
+自建CA：
+    touch /etc/pki/CA/index.txt
+    echo "01" > /etc/pki/CA/serial
+    openssl genrsa -out /etc/pki/CA/private/cakey.pem     # 创建CA的私钥
+    openssl req -new -key /etc/pki/CA/private/cakey.pem -out rootCA.csr   # 创建CA待自签署的证书请求文件
+    openssl ca -selfsign -in rootCA.csr                      # 自签署
+    cp /etc/pki/CA/newcerts/01.pem /etc/pki/CA/cacert.pem    # 将自签署的证书按照配置文件的配置复制到指定位置
+
+生成私钥和证书请求文件：
+    openssl genrsa -out server.key
+    openssl req -new -key server.key -out server.csr
+
+为他人颁发证书：
+    openssl ca -in youwant1.csr     #签署成功后，证书位于/etc/pki/CA/newcert目录下
+    #cp /etc/pki/CA/newcert/0x.pem server.cert
+
+问题：
+    1.签发证书时报错:failed to update database TXT_DB error number 2
+        原因:This thing happens when certificates share common data. You cannot have two 
+certificates that look otherwise the same.
