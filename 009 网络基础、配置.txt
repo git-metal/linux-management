@@ -271,3 +271,12 @@ TCP的三次握手、四次挥手：
     tcpdump -i eth1 '((tcp) and (port 80) and ((dst host 192.168.1.254) or (dst host 192.168.1.200)))'  #过滤80端口的TCP协议，目的地址是254或200
     tcpdump -i eth1 '((icmp) and ((ether dst host 00:01:02:03:04:05)))'                             #过滤icmp协议，并且MAC地址为00:01:02:03:04:05
     tcpdump -i eth1 '((tcp) and ((dst net 192.168) and (not dst host 192.168.1.200)))'              #过滤协议为TCP,目的网络为192.168的数据，这之中除去192.168.1.200的主机的数据
+
+
+#MTU
+    #查询MTU
+        ifconfig
+    #设置MTU（临时）
+        ifconfig eth0 mtu 9000
+    #设置MTU（永久）
+        Red Hat系统增加如下内容（vi /etc/sysconfig/network-scripts/ifcfg-eth0）MTU="9000" 保存后重启网卡生效（service network restart）
