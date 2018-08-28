@@ -10,3 +10,28 @@ kernle参数：
 
     xen_emul_unplug=never   #不拔除xen模拟设备
     xen_platform_pci.dev_unplug=all
+
+#grub1
+    重建引导
+    #> grub
+    #> device (hd0) /dev/xvda
+    #> root(hd0,0) 第一块磁盘第一个分区  /boot分区
+    #> setup (hd0)
+
+    grub引导
+    #> device (hd0) /dev/xvda
+    #> root (hd0,0)
+    #> kernel xxx root=xxx
+    #> initrd xxx
+    #> boot
+
+#grub2
+    重建引导
+    grub-install /dev/xvda      #mount -o bind /dev /mnt/root/dev   /dev /proc /sys
+    grub2-install /dev/xvda
+
+    grub引导
+    #> set root=(hd0,1)  下标从1开始
+    #> linux xxx root=xxx
+    #> initrd xxx
+    #> boot
