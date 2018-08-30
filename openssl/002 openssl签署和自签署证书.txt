@@ -1,3 +1,6 @@
+参考：
+    #openssl ca(签署和自建CA)
+    http://www.cnblogs.com/f-ck-need-u/p/7115871.html
 
 自建CA：
     touch /etc/pki/CA/index.txt
@@ -19,3 +22,8 @@
     1.签发证书时报错:failed to update database TXT_DB error number 2
         原因:This thing happens when certificates share common data. You cannot have two 
 certificates that look otherwise the same.
+
+
+验证证书是否有效:
+    openssl s_server -msg -verify -tls1_2 -state -cert server.cert -key server.key -accept 18444
+    openssl s_client -msg -verify -tls1_2 -state -showcerts -cert server.cert -key server.key -connect localhost:18444
