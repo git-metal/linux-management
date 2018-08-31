@@ -12,6 +12,11 @@ scp -r config root@<ip>:/root   #拷贝config目录到远程/root目录下
     #拷贝指定目录的所有文件
     tar --one-file-system --sparse -C /boot/ -cf - . | ssh  root@<ip>  tar --numeric-owner --delay-directory-restore  -C /mnt/xvda1  -xf -
 
+    #拷贝指定目录的部分文件
+    tar --one-file-system --sparse -C /boot/ --files-from=include_file -cf -  | ssh root@<ip> tar --numeric-owner --delay-directory-restore  -C /mnt/data -xf -
+            ./grub2
+            ./System.map-3.10.0-514.el7.x86_64
+
     #排除文件和目录
         --exclude=./proc/* --exclude=./sys/* --exclude=./media/* --exclude=./lost+found/* --exclude=./var/lib/ntp/proc/*
         #从文件中排除指定文件和目录
@@ -35,6 +40,12 @@ scp -r config root@<ip>:/root   #拷贝config目录到远程/root目录下
     #同步指定目录
     rsync -avHP --inplace --one-file-system / root@<ip>:/data
     rsync -avHP --inplace --one-file-system /boot/ root@<ip>:/mnt/data
+
+    #同步指定文件
+    rsync -avHP --sparse --compress --files-from=include_file /mnt/image/ root@<ip>:/mnt/data
+        /abc                #需要去掉同步目录的前缀  /mnt/image/abc
+        /test/test.log
+        /opt
 
     #指定ssh私钥
     rsync -avHP -e 'ssh -i ssh-rsa-test -o StrictHostKeyChecking=no' 100MB.img root@114.116.95.80:/data
