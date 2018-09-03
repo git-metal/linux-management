@@ -36,3 +36,17 @@ Windwos启动：
     Boot: 启动内核之前必须的驱动
     System: 在boot driver之后加载，由内核加载
     Automatic:系统GUI启动之后加载
+
+查看和设置文件属性:
+    attrib.exe
+
+
+System Volume & Boot Volume：
+    参考：https://support.microsoft.com/zh-cn/help/314470/definitions-for-system-volume-and-boot-volume
+    System volume：包含启动文件
+    Boot volume：包含系统文件: WINDOWS\System32
+    可以有多个boot volume，只有一个system volume
+
+
+
+

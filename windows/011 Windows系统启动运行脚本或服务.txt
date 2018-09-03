@@ -1,0 +1,14 @@
+参考：
+    https://github.com/rwmjones/rhsrvany
+
+    #Install a service in a Windows VM
+    https://rwmj.wordpress.com/2010/04/29/tip-install-a-service-in-a-windows-vm/#content
+
+    #Get a Windows VM to run a batch file at boot
+    https://rwmj.wordpress.com/2010/04/29/tip-get-a-windows-vm-to-run-a-batch-file-at-boot/
+
+
+
+开启启动：
+    [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run]
+    [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce]
