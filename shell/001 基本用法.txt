@@ -238,3 +238,8 @@ IFS:(Internal Field Seprator) ，内部域分隔符
         CURDIR="`pwd`"/"`dirname ${DIRNAME}`"
     fi
 
+
+循环读取：
+    for item in `cat $file`; do echo $item ; done
+    while read item ; do echo $item; done < $file
+    while read -r item ; do echo $item ; done <<< "`find . -name '*'`"
