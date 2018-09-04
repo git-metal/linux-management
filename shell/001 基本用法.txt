@@ -119,6 +119,17 @@
     获取所有元素： ${array_name[@]}
     获取数组长度： ${#array_name[@]}   ${#array_name[*]}
 
+Map：
+    declare -A map=（）
+    declare -A map=(["100"]="1" ["200"]="2")
+    echo ${!map[@]}         #输出所有key
+    echo ${map[@]}          #输出所有value
+    map["300"]="3"          #添加值
+    echo ${map["100"]}      #
+    for key in ${!map[@]} ； do echo ${map[$key]}； done
+
+
+
 脚本参数：
     $0: 脚本名，可能带上路径  
     $#: 传递到脚本的参数个数
