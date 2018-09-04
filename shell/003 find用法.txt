@@ -60,5 +60,17 @@ find命令选择： -options
         find <directory> -type f -name "*.c" | xargs grep "<strings>"
         grep -lr "THREAD_SIZE" arch/x86/include/asm/*
         find . | xargs grep "xxxx"
-        
 
+        #查找指定目录
+        find /mnt/image -type f -size +102400k -print
+
+        #排除多个目录
+        find / \( -path /proc -o -path /sys -o -path /media -o -path /lost+found -o -path /tmp -o -path /var/lib/ntp/proc \) -prune -o -type f -size +102400k -print
+        
+        #排除单个目录
+        find /mnt/image -path /mnt/image/sparse -prune -o -type f -size +102400k -print
+        find . -path ./sparse -prune -o -type f -size +102400k -print
+
+        #不跨文件系统查找
+        find /mnt/image -path /proc -prune -o -type f -size +102400k -print -mount
+        find /mnt/image -path /proc -prune -o -type f -size +102400k -print -xdev

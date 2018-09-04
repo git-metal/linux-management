@@ -206,6 +206,12 @@ IFS:(Internal Field Seprator) ，内部域分隔符
         $0000004
         直接输出IFS是看不到的，把它转化为二进制就可以看到了，"040"是空格，"011"是Tab，"012"是换行符"\n" 。最后一个 012 是因为 echo 默认是会换行。
     
+    #设置IFS
+        IFS='\n'    //将字符n作为IFS的换行符。
+        IFS=$"\n"   //这里\n确实通过$转化为了换行符，但仅当被解释时（或被执行时）才被转化为换行符。
+        IFS=$'\n'   //这才是真正的换行符。
+        IFS=$'\x0A' //\n作为IFS的换行符。
+
     #$* 和 $@ 的细微差别
         1. 如果是用冒号引起来，表示这个变量不用IFS替换！！所以可以看到这个变量的"原始值"。
         2. 反之，如果不加引号，输出时会根据IFS的值来分割后合并输出！
@@ -223,3 +229,12 @@ IFS:(Internal Field Seprator) ，内部域分隔符
             x y z
             $ echo "$@"
             x y z
+
+获取当前执行脚本的目录：
+    DIRNAME=$0
+    if [ "${DIRNAME:0:1}" = "/" ]; then
+        CURDIR=`dirname ${DIRNAME}`
+    else
+        CURDIR="`pwd`"/"`dirname ${DIRNAME}`"
+    fi
+

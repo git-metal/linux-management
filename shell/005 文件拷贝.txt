@@ -58,10 +58,14 @@ scp -r config root@<ip>:/root   #拷贝config目录到远程/root目录下
     #排除目录
         --exclude=/dev/* --exclude=/mnt/* --exclude=/var/lib/ntp/proc/* --exclude=/lost+found/* --exclude=/tmp/* --exclude=/sys/* --exclude=/media/* --exclude=/proc/*
         #从文件中排除指定文件和目录
-        --exclude-from=/data/exclude_file
+        --exclude-from=/data/exclude_file              #同--exclude一样，可以使用多次
             /boot/System.map-3.10.0-514.el7.x86_64     #文件
             /boot/grub/*                               #目录 （目的地会有grub目录）
             /boot/grub2                                #目录, grub2后面加/也可以生效 （目的地不会有grub2目录）
+
+    #对于大文件，，如果是只追加数据的文件，可以用--append参数加快同步速率
+    rsync -avHP --sparse --files-from=syncfile --append /mnt/image/ root@<ip>:/mnt/data         #同步完成后不校验
+    rsync -avHP --sparse --files-from=syncfile --append-verify /mnt/image/ root@<ip>:/mnt/data  #同步完成后进行校验，校验不通过会重新同步
 
 #限制网卡速率
 
