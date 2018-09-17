@@ -1,0 +1,64 @@
+
+yum 语法:
+    yum [options] [command] [package ...]
+    options：可选，选项包括-h（帮助），-y（当安装过程提示选择全部为"yes"），-q（不显示安装的过程）等等。
+    command：要进行的操作。
+    package操作的对象。
+
+yum常用命令:
+    1.列出所有可更新的软件清单命令：yum check-update
+    2.更新所有软件命令：yum update
+    3.仅安装指定的软件命令：yum install <package_name>
+    4.仅更新指定的软件命令：yum update <package_name>
+    5.列出所有可安裝的软件清单命令：yum list
+    6.删除软件包命令：yum remove <package_name>
+    7.查找软件包 命令：yum search <keyword>
+    8.清除缓存命令:
+        yum clean packages: 清除缓存目录下的软件包
+        yum clean headers: 清除缓存目录下的 headers
+        yum clean oldheaders: 清除缓存目录下旧的 headers
+        yum clean, yum clean all (= yum clean packages; yum clean oldheaders):清除缓存目录下的软件包及旧的headers
+        yum clean all       #清理本地缓存
+        yum clean plugins   #清除插件缓存
+    9.生成缓存: yum makecache
+    10.yum源管理  
+        yum repolist        #查询所有可用的yum源
+        yum repolist all    #查询所有有yum源
+        yum repolist enabled
+        yum repolist disabled
+    11.查询安装包
+        yum list                #显示所有
+        yum list all            #显示所有
+        yum list installed      #已安装
+        yum list updates        #可更新
+        yum list available      #可安装
+        yum list recent         #显示仓库中最近增加的程序包
+    12.安装包使用
+        yum install xxx         #安装
+        yum update xxx          #升级
+        yum remove xxx          #卸载
+        yum erase xxx           #卸载
+        yum info xxx            #查看程序包信息
+        yum provides /bin/mv    #查看文件的来源
+        yum deplist php         #查看指定包所依赖的capabilities
+        yum install nginx --enablerepo=epel #从指定yum源安装
+    13.包组相关的命令
+        yum groupinstall    #安装包组
+        yum groupupdate     #更新包组
+        yum grouplist       #显示包组
+        yum groupremove     #移除包组
+        yum groupinfo       #查看包组信息
+    14. 
+        yum history             #查看yum事务历史
+
+
+
+yump配置文件：
+    /etc/yum.repos.d/   
+    配置字段说明：
+        [rhel-6]                                     //中括号里内容要求唯一，但不要出现特殊字符
+        name=Red Hat Enterprise Linux 6           //此为描述信息，可以看情况填写
+        baseurl=file:///media/                     //此项为yum软件仓库位置，指向光盘挂载点
+        enabled=1                                   //此项为是否开启，1为开启0为不开启
+        gpgcheck=1                                  //此项为是否检查签名，1为监测0为不检测
+        gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release  //签名认证信息的路径 

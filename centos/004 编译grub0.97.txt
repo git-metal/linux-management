@@ -1,0 +1,18 @@
+
+下载链接:
+    https://ftp.osuosl.org/pub/clfs/conglomeration/grub/
+    http://cache.baiducontent.com/c?m=9f65cb4a8c8507ed4fece76310509735484380146d89845468d4e415d33146041c3fb8a6777f4d428d982f3156ef0841bfb0712223467df7cdc7dd0a9aeb85295f9f2742671df64305d36ea4ce5124b137902cfeae69b0f0b63484afa2c4df2344cb234729c6a1d1&p=9a72c54ad6c046b10ef3d32d021485&newp=8b2a9707c7934eaf5beac931444d8a231601d13523808c0a3e83fe4e946f5c55113d8eff7062515f8e99736306a44a5de0f7337234012bb49fcf894edcba866e42c970767f4bda1750c2&user=baidu&fm=sc&query=grub-0%2E97-ext4%2Epatch&qid=c15c798d00009a2a&p1=15
+
+环境准备:
+    yum install gcc gcc-c++
+    yum install glibc*.i686
+    yum install libgcc.i686
+
+    patch -Np1 -i ../grub-0.97-use_mmap-1.patch
+    patch -Np1 -i ../grub-0.97-fixes-1.patch
+    patch -Np1 -i ../grub-0.97-256byte_inode-1.patch
+    patch -Np1 -i ../grub-0.97-ext4-1.patch
+
+    ./configure
+    make 
+    make install
