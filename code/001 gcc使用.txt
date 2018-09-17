@@ -1,0 +1,4 @@
+
+
+gcc -L/usr/local/ssl/lib -lssl -lcrypto ssltcpserver.c -o ssltcpserver
+

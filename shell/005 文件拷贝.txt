@@ -6,7 +6,7 @@ cp -fR test/ /root           #拷贝test目录到/root下
 cp -fR test/ /root/abc       #拷贝test目录到/root/abc下，test目录重命名为abc
 
 #scp
-scp -r config root@<ip>:/root   #拷贝config目录到远程/root目录下
+scp -pr config root@<ip>:/root   #拷贝config目录到远程/root目录下
 
 #tar
     #拷贝指定目录的所有文件
@@ -35,6 +35,16 @@ scp -r config root@<ip>:/root   #拷贝config目录到远程/root目录下
 
     #压缩
     time tar -cf - 100MB.img | pv -pte -s $(du -sb 100MB.img | awk '{print $1}')| lz4 | ssh root@114.116.95.80 "lz4 -d | tar -xC /data"
+
+    #Example
+    tar cvjf - * | ssh root@home.nas02 "(cd /dest/; tar xjf - )"
+    tar cvzf - /wwwdata | ssh root@192.168.1.201 "dd of=/backup/wwwdata.tar.gz"
+    tar cvzf - /wwwdata | ssh root@192.168.1.201 "cat > /dev/nst0"
+    ssh root@<ip> 'tar -cf - /boot/' | tar -C /mnt/data/ -xf -  #会创建boot目录  /mnt/data/boot
+    ssh root@<ip> 'tar -cf - /boot/' | tar -C /mnt/data -xf -   #会创建boot目录  /mnt/data/boot
+    ssh root@<ip> 'tar -cf - /boot' | tar -C /mnt/data/ -xf -   #会创建boot目录  /mnt/data/boot
+    ssh root@<ip> 'tar -cf - /boot' | tar -C /mnt/data -xf -    #会创建boot目录  /mnt/data/boot
+    ssh root@160.137.2.35 'tar -C /boot/ -cf - . ' | tar -C /mnt/data -xf - #不会创建boot目录
     
 #rsync
     #同步指定目录

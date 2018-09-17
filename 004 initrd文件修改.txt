@@ -13,3 +13,7 @@ suse42.x:
     skipcpio {initrd_file} | xz -cd | cpio -idm
     /sbin/depmod -b ./ -v {kernel_version} 
     find . | cpio -H newc -o --quiet | xz -0 --check=crc32 > {initrd_file}
+
+suse11.x
+    mkinitrd -f lvm2 -i <initrd_file> -i <kernel_file>
+

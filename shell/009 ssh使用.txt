@@ -1,0 +1,5 @@
+
+chmod 600 <identity_file>
+ssh -o StrictHostKeyChecking=no -i <identity_file> root@<ip>
+ssh -o StrictHostKeyChecking=no -o NumberOfPasswordPrompts=0 -i <identity_file> root@<ip>
+

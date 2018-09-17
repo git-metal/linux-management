@@ -1,0 +1,4 @@
+
+AWK 
+    awk 'BEGIN{OFMT="%.0f"}{s=$4*1024;printf "%s:%0.f:%s:%.0f:%s",$1,'$vol_size',$2,s,$7}'
+    awk 'BEGIN{RS=","}{print $1}'
