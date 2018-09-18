@@ -2,4 +2,6 @@ fdisk
 
 
 parted
-    
+    parted -s /dev/vdb mklabel msdos 
+    parted -s /dev/vdb mkpart primary 1MB 4295MB
+    parted -s /dev/vdb mkpart primary 4296MB 100%
