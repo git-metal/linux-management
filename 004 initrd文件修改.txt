@@ -15,5 +15,5 @@ suse42.x:
     find . | cpio -H newc -o --quiet | xz -0 --check=crc32 > {initrd_file}
 
 suse11.x
-    mkinitrd -f lvm2 -i <initrd_file> -i <kernel_file>
+    mkinitrd -f lvm2 -i <initrd_file> -k <kernel_file>
 

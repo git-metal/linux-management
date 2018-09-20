@@ -1,0 +1,24 @@
+
+1. 创建新用户
+    useradd [option] LOGIN
+        -d : 指定用户主目录，如果此目录不存在，则同时使用-m选项，可以创建主目录
+        -g : 指定用户所属的用户组
+        -s : 指定用户的登录shell
+        -M : 不创建用户主目录
+    useradd test            #创建用户test的同时会创建用户组test,并创建用户主目录/home/test
+    useradd test -g root    #指定用户test的用户组为root
+
+2. 删除用户
+    userdel [option] LOGIN
+        -r : 删除主目录
+
+3. 修改用户
+    usermod [option] LOGIN
+
+4. 用户组管理
+    groupadd test
+    groupdel test
+
+5. 文件管理
+    chown [owner]:[group] file
+    chown -R [owner]:[group] /dir
