@@ -1,0 +1,46 @@
+
+安装过程：
+    1. 安装Erlang
+        方法1：自己编译RPM包:
+            yum install rpmdevtools ncurses-devel
+            git clone https://github.com/rabbitmq/erlang-rpm
+            cd erlang-rpm
+            make
+            命名成功后会在erlang-rpm/RPMS/x86_64生成rpm文件
+        方法2：下载rpm包安装
+            https://bintray.com/rabbitmq/rpm/erlang
+            https://packagecloud.io/rabbitmq/erlang
+
+        rpm -ivh erlang-21.0.8-1.el7.centos.x86_64.rpm
+    2. 安装rabbitmq
+        #yum install socat
+        rpm -ivh rabbitmq-server-3.7.8-1.el7.noarch.rpm
+
+RabbitMQ使用：
+    启动|停止：
+        rabbitmq-server start | stop
+        systemctl start rabbitmq-server.service
+    安装web管理端插件：
+        rabbitmq-plugins enable rabbitmq_management
+    通过浏览器访问：
+        http://127.0.0.1:15672   
+        默认用户密码: guest/guest
+    添加用户:
+        rabbitmqctl add_user admin Huawei@123
+        rabbitmqctl set_user_tags admin administrator #设置管理员权限
+    允许guest用户从其他机器登录:
+        修改/usr/lib/rabbitmq/lib/rabbitmq_server-3.7.8/ebin/rabbit.app
+            {loopback_users, [<<"guest">>]} 修改成 {loopback_users, []},
+
+
+RabbitMQ配置信息:
+    /usr/lib/rabbitmq                #安装路径
+    /usr/share/doc/rabbitmq-server-3.7.8/rabbitmq.config.example    #配置文件模板
+    /etc/rabbitmq/rabbitmq.config    #配置文件
+
+
+RabbitMQ队列管理:
+    rabbitmqctl list_queues
+    rabbitmqctl list_queues name messages_ready messages_unacknowledged
+    rabbitmqctl list_exchanges
+    rabbitmqctl list_bindings
