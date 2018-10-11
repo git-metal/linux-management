@@ -27,6 +27,7 @@
     cat /proc/partitions
     fdisk -l
     parted -l
+    udevadm info --query=all  --name=/dev/xvda
 
 ps使用：
     #以所使用的虚拟内存大小排序
@@ -35,4 +36,7 @@ ps使用：
     #以进程使用的实际物理内存大小排序
     ps auxk-rss 
 
-    
+
+lspci:
+    lspci -knn
+    lspci -vmm

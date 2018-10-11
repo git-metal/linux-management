@@ -118,6 +118,11 @@
     读取：${array_name[index]}
     获取所有元素： ${array_name[@]}
     获取数组长度： ${#array_name[@]}   ${#array_name[*]}
+    追加:      array_name=(${array_name[@]} value)
+    复制数组:   new_array=(${array_name[@]})
+    清除数组:   unset array_name 
+    提取数组:   ${array_name[@]:3:2}   从第三个位置开始，取两个元素
+    遍历:  for item in ${array_name[@]} 
 
 Map：
     declare -A map=（）
@@ -126,7 +131,7 @@ Map：
     echo ${map[@]}          #输出所有value
     map["300"]="3"          #添加值
     echo ${map["100"]}      #
-    for key in ${!map[@]} ； do echo ${map[$key]}； done
+    for key in ${!map[@]}; do echo ${map[$key]}; done
 
 
 
@@ -287,4 +292,5 @@ $(()):整数运算
     $ ((a--));echo $a
     5
 
-
+#查看系统位数
+    getconf LONG_BIT
