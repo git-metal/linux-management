@@ -261,8 +261,10 @@ IFS:(Internal Field Seprator) ，内部域分隔符
 
 循环读取：
     for item in `cat $file`; do echo $item ; done
-    while read item ; do echo $item; done < $file
+    while read item ; do echo "$item"; done < $file
+        如果$item不加双引号，则/boot/grub/*之类的会展开
     while read -r item ; do echo $item ; done <<< "`find . -name '*'`"
+
 
 bc： 支持浮点预算
     scale：设置精度
