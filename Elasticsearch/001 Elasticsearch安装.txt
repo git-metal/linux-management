@@ -2,7 +2,7 @@
 官网：https://www.elastic.co/
 帮助文档：https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html
 
-安装：
+安装elasticsearch：
     1. 安装JDK
         #debian系统安装jdk
             https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-debian-8
@@ -37,3 +37,39 @@
         vim config/elasticsearch.yml
             network.host: 0.0.0.0
 
+安装elasticsearch-head插件：
+    环境要求：
+        1. 需要nodejs （npm）
+
+    安装：
+        yum install npm
+        npm install phantomjs
+        git clone https://github.com/mobz/elasticsearch-head.git
+        cd elasticsearch-head
+        npm install
+        npm run start
+
+    配置:
+        elasticsearch.yml
+            http.cors.enabled: true
+            http.cors.allow-origin: "*"
+
+        端口: 9100
+            http://122.112.203.126:9100
+
+安装中文分词插件： elasticsearch-analysis-ik
+    https://github.com/medcl/elasticsearch-analysis-ikhttps://github.com/medcl/elasticsearch-analysis-ik
+
+
+启动报错:
+    # max virtual memory areas vm.max_map_count [65530] is too low
+        vim /etc/sysctl.conf
+            加入配置项: vm.max_map_count = 65530
+        sysctl -p
+
+    # max file descriptors [4096] for elasticsearch process likely too low
+        vim /etc/security/limits.conf
+            * hard nofile 65535
+            * soft nofile 65535
+            * hard nproc 4096
+            * soft nproc 2048

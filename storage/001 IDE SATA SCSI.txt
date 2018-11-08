@@ -1,1 +1,19 @@
 https://www.kernel.org/doc/html/v4.16/driver-api/libata.html
+
+
+IDE: (PATA) Parallel-ATA 并行接口
+    Ultra ATA
+SATA: Serial-ATA    串行接口
+
+SCSI: Small Computer System Interface
+
+SSD:
+FC:
+    
+SAS: Serial Attached SCSI
+
+
+演变:
+    IDE (ATA)       -->     SATA
+    SCSI            -->     SAS (兼容SATA) 
+    

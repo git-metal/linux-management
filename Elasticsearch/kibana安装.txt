@@ -1,0 +1,15 @@
+
+ https://github.com/elastic/kibana
+
+安装：
+    curl -O https://artifacts.elastic.co/downloads/kibana/kibana-6.4.2-darwin-x86_64.tar.gz
+    tar -xzf kibana-6.4.2-darwin-x86_64.tar.gz
+    cd kibana-6.4.2-darwin-x86_64/
+    ./bin/kibana
+
+    配置:
+        # config/kibana.yml
+            server.host: "0.0.0.0"
+            elasticsearch.url: "http://localhost:9200"
+
+        默认端口:5601
