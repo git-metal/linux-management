@@ -1,0 +1,126 @@
+
+
+Hadoop集群环境搭建:
+    依赖组件安装:
+        1. Java
+        2. ssh
+
+    配置文件:
+        hdfs文件系统目录:
+            #mkdir hdfs hdfs/tmp hdfs/name hdfs/data
+            mkdir hdfs
+            mkdir hdfs/tmp
+            mkdir hdfs/name
+            mkdir hdfs/data
+    /etc/hosts
+        ip  master
+        ip  slave1
+
+core-site.xml
+<configuration>
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://master:9000</value>
+    </property>
+    <property>
+        <name>hadoop.tmp.dir</name>
+        <value>/data/hadoop/hadoop-2.9.1/hdfs/tmp</value>
+    </property>
+    <property>
+        <name>io.file.buffer.size</name>
+        <value>131072</value>
+    </property>
+</configuration>
+
+
+hadoop-env.sh
+export JAVA_HOME=/usr/local/lib/jdk8
+
+yarn-env.sh
+取消注释 export JAVA_HOME
+
+hdfs-site.xml
+<configuration>
+    <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+    </property>
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>/data/hadoop/hadoop-2.9.1/hdfs/name</value>
+    </property>
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>/data/hadoop/hadoop-2.9.1/hdfs/data</value>
+    </property>
+    <property>
+        <name>dfs.namenode.secondary.http-address</name>
+        <value>master:9001</value>
+    </property>
+    <property>
+        <name>dfs.webhdfs.enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>dfs.permissions.enabled</name>
+        <value>false</value>
+    </property>
+</configuration>
+
+
+mapred-site.xml
+<configuration>
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+</configuration>
+
+
+yarn-site.xml
+<configuration>
+
+<!-- Site specific YARN configuration properties -->
+    <property>
+        <name>yarn.resourcemanager.hostname</name>
+        <value>master</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.address</name>
+        <value>master:18032</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.scheduler.address</name>
+        <value>master:18030</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.webapp.address</name>
+        <value>master:18088</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.resource-tracker.address</name>
+        <value>master:18031</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.admin.address</name>
+        <value>master:18033</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+</configuration>
+
+
+slaves
+    删除localhost，改为slave1
+
+/etc/profile:
+    export HADOOP_HOME=/data/hadoop/hadoop-2.9.1
+    export PATH="$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH"
+    export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+
+CLI:
+    hadoop dfsadmin -report
+
+

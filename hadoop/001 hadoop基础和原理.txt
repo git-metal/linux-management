@@ -29,3 +29,9 @@ Hadoop 相关技术:
         编程模型，主要用来做数据分析
         最大化利用CPU
 
+
+Hadoop YARN:
+    ResourceManager: 全局资源管理和任务调度
+    NodeManager: 单个节点的资源管理和监控
+    ApplicationMaster: 单个作业的资源管理和任务监控
+    Container: 资源申请的单位和任务运行的容器

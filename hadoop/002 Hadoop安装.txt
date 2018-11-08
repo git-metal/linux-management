@@ -1,0 +1,85 @@
+
+http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html
+
+
+单机模式安装(single node):
+    #依赖项
+        1. Java
+
+
+    #下载Hadoop
+        https://hadoop.apache.org/releases.htmlhttps://hadoop.apache.org/releases.htmlhttps://hadoop.apache.org/releases.html
+    
+    #hadoop样例
+          $ mkdir input
+          $ cp etc/hadoop/*.xml input
+          $ bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.9.1.jar grep input output 'dfs[a-z.]+'
+          $ cat output/*
+
+
+单节点使用hdfs：
+    etc/hadoop/core-site.xml:
+        <configuration>
+            <property>
+                <name>fs.defaultFS</name>
+                <value>hdfs://localhost:9000</value>
+            </property>
+        </configuration>
+
+    etc/hadoop/hdfs-site.xml:
+        <configuration>
+            <property>
+                <name>dfs.replication</name>
+                <value>1</value>
+            </property>
+        </configuration>
+
+    etc/hadoop/hadoop-env.sh:
+        export JAVA_HOME=/usr/local/lib/jdk8
+
+    配置本地ssh访问:
+        $ ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+        $ cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+        $ chmod 0600 ~/.ssh/authorized_keys
+
+    格式化hdfs文件系统:
+        bin/hdfs namenode -format
+    启动NameNode daemon and DataNode daemon:
+        sbin/start-dfs.sh
+        浏览namenode：
+        http://localhost:50070/
+    创建目录:
+        bin/hdfs dfs -mkdir /user
+        bin/hdfs dfs -mkdir /user/<username>
+
+    复制文件:
+        bin/hdfs dfs -put etc/hadoop input
+    运行Hadoop:
+        bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.9.1.jar grep input output 'dfs[a-z.]+'
+
+    获取结果:
+        bin/hdfs dfs get output output
+        bin/hdfs dfs -cat output/*
+
+    停止hdfs daemons:
+        sbin/stop-dfs.sh
+
+
+YARN on Single Node：
+    首先单节点使用的配置需要做好。
+
+    etc/hadoop/mapred-site.xml:
+        <property>
+            <name>mapreduce.framework.name</name>
+            <value>yarn</value>
+        </property>
+
+    etc/hadoop/yarn-site.xml:
+        <property>
+            <name>yarn.nodemanager.aux-services</name>
+            <value>mapreduce_shuffle</value>
+        </property>
+
+    Start ResourceManager daemon and NodeManager daemon:
+        sbin/start-yarn.sh
+        ResourceManager: http://localhost:8088/
