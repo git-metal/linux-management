@@ -6,6 +6,8 @@ redhat6.x:
 
 redhat7.x:
     skipcpio {initrd_file} | gunzip -c | cpio -i -d
+    #skipcpio {initrd_file} | gzip -c | cpio -i -d
+    #skipcpio {initrd_file} | gcat -c | cpio -i -d
     /sbin/depmod -b ./ -v {kernel_version} 
     find . -print0 | cpio --null -H newc -o --quiet | gzip -9 > {initrd_file}
 
