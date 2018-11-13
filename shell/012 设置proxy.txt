@@ -1,0 +1,10 @@
+
+
+export http_proxy="http://username:password@proxy:port"
+export https_proxy="http://username:password@proxy:port"
+export no_proxy=.test.com,192.168.31.51
+
+特殊字符需要用%转义:
+    man ascii
+    ! -> %21
+    $ -> %24
