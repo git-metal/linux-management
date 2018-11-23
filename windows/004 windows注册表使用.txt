@@ -17,7 +17,10 @@
     reg unload  HKEY_LOCAL_MACHINE\test
     reg load HKEY_LOCAL_MACHINE\test C:\winpe64\mount\Windows\System32\config\SYSTEM
 
-    #
+    #导入注册表 (reg文件)
+    reg load HKEY_LOCAL_MACHINE\test C:\winpe64\mount\Windows\System32\config\SYSTEM
+    reg import xxx.reg
+    reg unload HKEY_LOCAL_MACHINE\test
 
 查看和设置系统当前使用的字符集:
     参考链接：https://en.wikipedia.org/wiki/Windows_code_page
