@@ -91,3 +91,15 @@ scp -pr config root@<ip>:/root   #拷贝config目录到远程/root目录下
     #10MB
     tc class add dev eth0 parent 1: classid 1:1 htb rate 100kbps
     tc class add dev eth0 parent 1:1 classid 1:11 htb rate 100kbps
+
+#文件扩展属性
+    capability： user, trusted, security, system
+    
+    setcap cap_net_raw+ep /usr/bin/ping
+    getcap /usr/bin/ping
+    getfattr -d -m "^security\\." /usr/bin/ping
+    getfattr -n security.capability ping
+    chmod u+s /usr/bin/ping
+    chatrr
+    tar --xattrs --xattrs-include=* -cf - ping | tar --xattrs --xattrs-include=* -xf - -C cc/
+    tar --xattrs --xattrs-include=* -cf - ping | ssh root@139.159.206.134 tar --xattrs --xattrs-include=* -xf - -C /root
