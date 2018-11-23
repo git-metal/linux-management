@@ -280,3 +280,52 @@ TCP的三次握手、四次挥手：
         ifconfig eth0 mtu 9000
     #设置MTU（永久）
         Red Hat系统增加如下内容（vi /etc/sysconfig/network-scripts/ifcfg-eth0）MTU="9000" 保存后重启网卡生效（service network restart）
+
+
+#ifconfig命令
+    HWaddr :网卡的硬件地址，即MAC地址
+    inet addr：IPv4的IP 地址
+    Bcast：广播地址
+    mask：子网掩码
+    inet6 addr：IPv6地址
+    MTU:最大传输单元
+    Metric：用于计算路由的成本
+    RX：表示网络启动到现在的封包接受情况 (Receive)
+    packets:表示接包数
+    errors:表示接包发生错误的数量
+    dropped：表示丢弃的包数量
+    overruns:表示接收时因过速而丢失的数据包数
+    frame：表示发生frame错误而丢失的数据包数
+    TX：从网络启动到现在传送的情况 (Transmit)
+    collisions：冲突信息包的数目
+    txqueuelen：发送队列的大小
+    RX byte、TX byte:总传送/接受的量
+
+    ifconfig eth0 hw ether B8:97:5A:00:4E:3A    #配置临时MAC地址
+    ifconfig eth0 arp                           #启用arp协议
+    ifconfig eth0 -arp                          #关闭arp协议
+    ifconfig eth0:1 down                        #关闭临时的网络接口
+    ifdown eth0 ; ifup eth0                     #简单的启动和关闭网络接口
+
+#ip命令
+    ip add add 192.168.1.126/24 dev eth0:0      #ip add 临时增加/删除IP地址
+    ip add del 192.168.1.126/24 dev eth0:0
+    ip add show
+    ip add show eth0
+    
+    ip link set eth0 up         //开启网卡
+    ip link set eth0 down       //关闭网卡
+    ip link set eth0 name lyj   //网卡改名
+    ip link set eth0 mtu 1000   //改mtu值
+    ip link show                //显示所有接口信息
+    ip -s link show eth0        //显示接口流量信息
+    ip -s -s link show eth0     //多一个-s表示更详细的信息
+
+    ip route show               //查看路由信息
+    ip route add 10.10.10.0/24 via 172.16.0.254  dev eth0   //添加一条路由
+    ip route del 10.10.10.0/24                              //删除一条路由
+    ip route add default via 172.16.0.254 dev eth0          //添加默认路由
+    ip route del default via 172.16.0.254 dev eth0          //删除默认路由
+
+    ip monitor all   //所在局域网的一台电脑根据它的状态可以被分类成REACHABLE或者STALE
+    ip neighbour    //查看接入你所在的局域网的设备的MAC地址
