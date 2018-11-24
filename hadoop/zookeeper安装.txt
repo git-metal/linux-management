@@ -1,0 +1,25 @@
+
+    http://zookeeper.apache.org/doc/r3.4.12/zookeeperStarted.html
+    https://www.apache.org/dyn/closer.cgi/zookeeper/
+
+zookeeper安装:
+
+    wget http://mirrors.hust.edu.cn/apache/zookeeper/stable/zookeeper-3.4.12.tar.gz
+
+    #配置 conf/zoo.cfg
+        tickTime=2000
+        dataDir=/var/lib/zookeeper
+        clientPort=2181
+
+    #启动|停止
+        bin/zkServer.sh star
+        bin/zkServer.sh stop
+
+    #连接zookeeper
+        bin/zkCli.sh -server 127.0.0.1:2181
+
+    #基本使用
+        ls /
+        create /znode data
+        get /znode
+        delete /znode
