@@ -3,3 +3,12 @@ chmod 600 <identity_file>
 ssh -o StrictHostKeyChecking=no -i <identity_file> root@<ip>
 ssh -o StrictHostKeyChecking=no -o NumberOfPasswordPrompts=0 -i <identity_file> root@<ip>
 
+
+#ssh-keygen
+    ssh-keygen -t rsa -b 2048       #生成秘钥对
+    ssh-keygen -t rsa -P '' -f xxx  #生成秘钥对
+    ssh-keygen -e -f xxx.pri        #从私钥中读取公钥
+    ssh-keygen -p -f xxx.pri        #重新设置私钥的密码，公钥不变
+
+#ssh-keyscan
+    
