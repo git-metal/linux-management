@@ -15,3 +15,8 @@ netsh
     netsh interface ipv4 show subinterface     
     #设置MTU
     netsh interface ipv4 set subinterface "Local Area Connection" mtu=1480 store=persistent
+
+
+文件共享:
+    net use \\ip\C$ "password" /user:administrator
+    copy <file> \\ip\C$
