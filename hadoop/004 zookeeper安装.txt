@@ -7,7 +7,7 @@ zookeeper安装:
     wget http://mirrors.hust.edu.cn/apache/zookeeper/stable/zookeeper-3.4.12.tar.gz
 
     #配置 conf/zoo.cfg
-        tickTime=2000
+        tickTime=2000                   #CS通信心跳时间，单位毫秒
         dataDir=/var/lib/zookeeper
         clientPort=2181
 

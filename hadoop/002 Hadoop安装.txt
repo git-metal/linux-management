@@ -83,3 +83,4 @@ YARN on Single Node：
     Start ResourceManager daemon and NodeManager daemon:
         sbin/start-yarn.sh
         ResourceManager: http://localhost:8088/
+        

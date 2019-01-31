@@ -7,8 +7,8 @@
     Elasticsearch                   Database
     ------------                    ------------
     Index:                          数据库
-    Document:                       
-    Type:                           
+    Document:                       表
+    Type: docuement的分组（新版本将废弃）                         
 
 
 
@@ -16,6 +16,10 @@
 
     curl -X GET 'http://localhost:9200/_cat/indices?v'      #查看当前节点的所有 Index
     curl 'localhost:9200/_mapping?pretty=true'              #列出每个 Index 所包含的 Type
+
+    #index
+    curl -X PUT 'localhost:9200/weather'                    #新建一个名叫weather的 Index
+    curl -X DELETE 'localhost:9200/weather'                 #删除index
 
 
 

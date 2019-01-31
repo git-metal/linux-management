@@ -1,0 +1,16 @@
+
+
+
+安装:
+    yum install device-mapper device-mapper-multipath
+
+    multipath -l        #查看多路径状态
+    
+启用多路径:
+    modprobe dm-multipath
+    modprobe dm-round-robin
+    service multipathd start
+    multipath –v2
+
+配置: /etc/multipath.conf
+    

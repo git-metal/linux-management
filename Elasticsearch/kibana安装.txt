@@ -13,3 +13,9 @@
             elasticsearch.url: "http://localhost:9200"
 
         默认端口:5601
+
+
+    使用:
+        #查看kibana的状态
+        http://122.112.203.126:5601/status
+        

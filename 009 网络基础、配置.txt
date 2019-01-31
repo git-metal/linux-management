@@ -329,3 +329,17 @@ TCP的三次握手、四次挥手：
 
     ip monitor all   //所在局域网的一台电脑根据它的状态可以被分类成REACHABLE或者STALE
     ip neighbour    //查看接入你所在的局域网的设备的MAC地址
+
+NAT:
+    参考:https://blog.csdn.net/chengxuyuanyonghu/article/details/64441374
+    SNAT源地址转换:
+        原理：在路由器后（PSOTROUTING）将内网的ip地址修改为外网网卡的ip地址。
+        应用场景：共享内部主机上网。
+        iptables -t nat -I POSTROUTING -o 外网网卡 -s 内网网段 -j SNAT --to-source 外网ip地址  #适用于外网ip地址固定场景
+        iptables -t nat -I POSTROUTING -o 外网网卡 -s 内网网段 -j MASQUERADE  #适用于共享动态ip地址上网（如adsl拨号，dhcp获取外网ip）
+
+
+    DNAT目的地址转换:
+        原理：在路由前（PREROUTING）将来自外网访问网关公网ip及对应端口的目的ip及端口修改为内部服务器的ip及端口，实现发布内部服务器
+        应用场景：发布内部主机服务
+        iptables -t nat -I PREROUTING -i 外网网卡 -d 外网ip tcp --dport 发布的端口 -j DNAT --to-destination 内网服务ip:端口

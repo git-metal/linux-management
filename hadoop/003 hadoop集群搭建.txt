@@ -16,6 +16,7 @@ Hadoop集群环境搭建:
         ip  master
         ip  slave1
 
+
 core-site.xml
 <configuration>
     <property>
@@ -120,7 +121,24 @@ slaves
     export PATH="$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH"
     export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
 
+    格式化hdfs文件系统:
+        bin/hdfs namenode -format
+    启动|停止:
+        sbin/start-yarn.sh
+        sbin/stop-yarn.sh
+
 CLI:
     hadoop dfsadmin -report
 
+Web Interfaces:
+    NameNode:           http://ip:50070
+    Resourcemanager:    http://ip:8088  -> 18088
+    DataNode:           http://ip:50075
+
+    使用样例:
+        hdfs dfs -mkdir /user
+        hdfs dfs -mkdir /user/root
+        hdfs dfs -put etc/hadoop/ input
+        ./bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.9.1.jar grep input output 'dfs[a-z.]+'
+        hdfs dfs -get output/* output
 

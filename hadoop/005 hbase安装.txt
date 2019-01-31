@@ -1,0 +1,76 @@
+
+
+HBase Standalone安装:
+    
+    wget http://mirrors.shu.edu.cn/apache/hbase/2.1.1/hbase-2.1.1-bin.tar.gz
+
+    修改配置:
+
+    conf/hbase-env.sh
+        export JAVA_HOME=/usr/local/lib/jdk8
+
+    conf/hbase-site.xml
+
+  <property>
+    <name>hbase.rootdir</name>
+    <value>file:///opt/hbase</value>
+  </property>
+  <property>
+    <name>hbase.zookeeper.property.dataDir</name>
+    <value>/opt/zookeeper</value>
+  </property>
+  <property>
+    <name>hbase.unsafe.stream.capability.enforce</name>
+    <value>false</value>
+  </property>
+
+    启动|停止:
+        bin/start-hbase.sh
+        bin/stop-hbase.sh
+    webUI:
+        http://localhost:16010
+
+    CLI:
+        bin/hbase shell
+        create 'test', 'cf'         #创建表
+        list 'test'                 #查看表信息
+        describe 'test'             #查看表详细信息
+        put 'test', 'row1', 'cf:a', 'value1'    #插入数据
+        scan 'test'                 #查看表的所有数据
+        get 'test', 'row1'          #查看某一行的数据
+        disable 'test'              #禁用表
+        enable 'test'               #启用表
+        drop 'test'                 #删除表
+
+
+伪分布式:
+    配置:
+    conf/hbase-env.sh
+
+<property>
+    <name>hbase.rootdir</name>
+    <value>hdfs://master:9000/hbase</value>
+  </property>
+  <property>
+    <name>hbase.zookeeper.property.dataDir</name>
+    <value>/opt/zookeeper</value>
+  </property>
+  <property>
+    <name>hbase.unsafe.stream.capability.enforce</name>
+    <value>false</value>
+  </property>
+  <property>
+    <name>hbase.cluster.distributed</name>
+    <value>true</value>
+  </property>
+
+    CLI:
+        bin/start-hbase.sh
+        bin/stop-hbase.sh
+
+    启动|停止 Hbase Master server:
+        ./bin/local-master-backup.sh start 2 3
+        cat /tmp/hbase-testuser-1-master.pid |xargs kill -9
+    启动|停止 RegionServer:
+        .bin/local-regionservers.sh start 2 3 4 5
+        .bin/local-regionservers.sh stop 3

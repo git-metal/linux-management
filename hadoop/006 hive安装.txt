@@ -1,0 +1,68 @@
+
+https://blog.csdn.net/JENREY/article/details/79807418
+https://blog.csdn.net/lblblblblzdx/article/details/79760959
+
+安装前准备:
+    hadoop
+    mysql
+
+安装:
+    wget https://mirrors.tuna.tsinghua.edu.cn/apache/hive/hive-2.3.4/apache-hive-2.3.4-bin.tar.gz
+
+    https://blog.csdn.net/JENREY/article/details/79807418
+
+配置:
+    /etc/profile:
+        export HIVE_HOME=/data/tools/apache-hive-2.3.4-bin
+        export PATH=${HIVE_HOME}/bin:$PATH
+    cp conf/hive-default.xml.template conf/hive-site.xml
+
+  <property>
+    <name>javax.jdo.option.ConnectionURL</name>
+    <value>jdbc:mysql://localhost:3306/hive_metastore?createDatabaseIfNotExist=true&amp;useSSL=false</value>
+    <description>JDBC connect string for a JDBC metastore</description>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionDriverName</name>
+    <value>com.mysql.jdbc.Driver</value>
+    <description>Driver class name for a JDBC metastore</description>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionUserName</name>
+    <value>root</value>
+    <description>username to use against metastore database</description>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionPassword</name>
+    <value>xxxx</value>
+    <description>password to use against metastore database</description>
+  </property>
+
+    Mysql:
+        wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.47.zip
+        mysql-connector-java-5.1.47-bin.jar放到 ${HIVE_HOME}/lib目录下
+
+    初始化:
+        #初始化元数据库
+        schematool -dbType mysql -initSchema
+
+    启动hive客户端:
+        hive --service cli 
+        hive
+    启动hive服务端:
+        hive --service metastore  -p 9083      #默认端口9083
+        hive --servive hiveserver2             #端口10000
+
+        beeline -u jdbc:hive2://localhost:10000
+
+    创建数据库:
+        create database test;
+        show databases;
+
+    远程连接hive服务端的配置:
+        hive-site.xml
+        <property>
+           <name>hive.metastore.uris</name>
+           <value>thrift://metastore_server_ip:9083</value>
+        </property>
+

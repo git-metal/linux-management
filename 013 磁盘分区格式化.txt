@@ -1,7 +1,38 @@
 fdisk
 
 
-parted
-    parted -s /dev/vdb mklabel msdos 
+parted:
+    parted -s /dev/vdb mklabel msdos | gpt
     parted -s /dev/vdb mkpart primary 1MB 4295MB
     parted -s /dev/vdb mkpart primary 4296MB 100%
+    parted -s /dev/vdb mkpart extended 1000MB 100%
+    parted -s /dev/vdb mkpart logical 1001Mib 1500
+    parted -s /dev/vdb mkpart logical 1501 2500
+
+btrfs:
+    btrfs filesystem show -m --raw
+    查询btrfs的组成设备
+    btrfs filesystem show 6648aa41-a56a-4beb-97b0-9568471bb443
+    btrfs filesystem df
+
+    分区:
+        mkfs.btrfs 
+            -f 
+            -L label
+            -d
+            -m 
+            -n nodesize
+            -U uuid
+
+    btrfs subvolume create /mnt/data/@
+    btrfs subvolume create /mnt/data/@/var/temp
+    btrfs subvolume set-default 
+    mount -o subvol=@/var/temp /dev/vdb /opt/temp
+    mount -o subvolid=xxx /dev/vdb /opt/temp
+
+    btrfs subvolume del sub2
+    btrfs subvolume del -c sub2
+    btrfs subvolume set-default 256 /mnt/btrfs/
+    btrfs subvolume set-default 5 /mnt/btrfs
+    btrfs subvolume snapshot ./ ./snap-root
+
