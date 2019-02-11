@@ -66,3 +66,7 @@ https://blog.csdn.net/lblblblblzdx/article/details/79760959
            <value>thrift://metastore_server_ip:9083</value>
         </property>
 
+
+
+ create table if not exists employee (eid int, name String, salary float, destination String) COMMENT 'employee details' ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' STORED AS TEXTFILE;
+ load data local inpath '/data/tools/apache-hive-2.3.4-bin/test-data/employee.txt' overwrite into table employee;
