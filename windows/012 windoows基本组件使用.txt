@@ -1,0 +1,3 @@
+
+安装Telnet：
+    dism /online /Enable-Feature /FeatureName:TelnetClient

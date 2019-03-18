@@ -27,3 +27,7 @@ certificates that look otherwise the same.
 验证证书是否有效:
     openssl s_server -msg -verify -tls1_2 -state -cert server.cert -key server.key -accept 18444
     openssl s_client -msg -verify -tls1_2 -state -showcerts -cert server.cert -key server.key -connect localhost:18444
+
+验证证书有效期:
+    openssl x509 -in xxx.pem -noout -dates
+ 
