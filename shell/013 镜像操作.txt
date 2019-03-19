@@ -1,0 +1,14 @@
+
+losetup:
+	losetup -f xxx.raw
+	losetup /dev/loop0 xxx.raw -o 525336576
+	mount -o loop,offset=1048576 xxx.raw /tmp/boot/
+
+mount:
+	mount -o loop -t iso9660 xxx.iso /nfs
+	mount -t nfs IP:\ios /nfs
+	mount -o nolock -t nfs IP:\ios /iso
+	mount -t cifs -o username=administrator,passwd=${passwd} //ip/test /mnt/tmp/
+	mount -t cifs -o username=administrator //ip/share /mnt/tmp
+
+	mount -o remount,rw /dev/xxx /xxx
