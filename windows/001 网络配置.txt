@@ -18,5 +18,10 @@ netsh
 
 
 文件共享:
+    net use \\ip\C$ /del /y
+    net use * /del /y
     net use \\ip\C$ "password" /user:administrator
+    net use z: \\ip\C$ "password" /user:administrator  #映射到z盘
     copy <file> \\ip\C$
+
+    net share      #查看本地共享
