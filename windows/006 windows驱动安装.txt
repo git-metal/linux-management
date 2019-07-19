@@ -12,3 +12,7 @@
         .sys:安装时拷贝到%SystemRoot%\system32\drivers
         .cat:数字证书文件，Windows Hardware Quality Lab (WHQL) 
 
+
+kvm virtio驱动:
+	https://docs.fedoraproject.org/en-US/quick-docs/creating-windows-virtual-machines-using-virtio-drivers/index.html
+	https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/
