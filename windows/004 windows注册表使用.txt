@@ -32,5 +32,6 @@
 
 查看操作系统位数：
     HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment PROCESSOR_ARCHITECTURE
+	set processor_i
     
 

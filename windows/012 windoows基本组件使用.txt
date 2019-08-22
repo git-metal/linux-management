@@ -1,3 +1,18 @@
 
 安装Telnet：
     dism /online /Enable-Feature /FeatureName:TelnetClient
+	
+	
+net:
+	#将远程的C盘映射成本地z盘
+	net use z: \\139.159.145.172\c$ "password" /user:administrator
+	
+	net use \\139.159.145.172\c$ "password" /user:administrator
+	
+	删除共享映射 
+	net use c: /del 删除映射的c盘，其他盘类推 
+	net use * /del 删除全部,会有提示要求按y确认 
+
+
+
+	
