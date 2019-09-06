@@ -6,6 +6,7 @@ kernle参数：
 
 #grub中设置kernel参数
     init=/bin/bash      #进入bash模式
+    init=/sysroot/bin/bash  
     singel              #进入单用户模式
     3                   #进入命令行模式
     loglevel=[n]        #0-7  6:KERN_INFO, 7:KERN_DEBUG
@@ -38,3 +39,6 @@ kernle参数：
     #> linux xxx root=xxx
     #> initrd xxx
     #> boot
+
+#修改密码
+	echo "root:xxx" | chpasswd	

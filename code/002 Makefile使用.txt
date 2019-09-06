@@ -1,0 +1,6 @@
+
+
+编译: make 
+加载: insmod xxx.ko 
+卸载: rmmod xxx.ko
+日志: /var/log/messages

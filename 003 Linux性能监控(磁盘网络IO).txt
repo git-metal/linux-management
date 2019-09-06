@@ -9,3 +9,10 @@
 
     #tcpdump
 
+#内存
+	#清理缓存
+	echo 1 > /proc/sys/vm/drop_caches
+	
+	#查看内存
+	free -m
+	

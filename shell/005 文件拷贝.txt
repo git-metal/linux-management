@@ -14,16 +14,19 @@ scp -pr config root@<ip>:/root   #拷贝config目录到远程/root目录下
 
     #拷贝指定目录的部分文件
     tar --one-file-system --sparse -C /boot/ --files-from=include_file -cf -  | ssh root@<ip> tar --numeric-owner --delay-directory-restore  -C /mnt/data -xf -
-            ./grub2
-            ./System.map-3.10.0-514.el7.x86_64
+                                                        #-C /boot/ --files-from=include_file ， --files-from 需要在 -C /boot/后面
+            ./grub2                                     #grub2目录，不能设置为 ./grub2/*
+            ./System.map-3.10.0-514.el7.x86_64          #文件
 
     #排除文件和目录
         --exclude=./proc/* --exclude=./sys/* --exclude=./media/* --exclude=./lost+found/* --exclude=./var/lib/ntp/proc/*
         #从文件中排除指定文件和目录
         --exclude-from=/data/exclude_file
             ./boot/System.map-3.10.0-514.el7.x86_64     #文件
-            ./boot/grub/*                               #目录
-            ./boot/grub2                                #目录, grub2后面加/则不生效
+            ./boot/grub/*                               #目录,目的端会有这个目录
+            ./boot/grub2                                #目录,目的端不会有这个grub2目录, grub2后面加/则不生效
+            boot/grub2/*                                #排除grub2目录下的所有文件
+            boot/initramfs-3.10.0-862.el7.x86_64.img    #排除initramfs-3.10.0-862.el7.x86_64.img文件
 
     #拷贝当前目录
     tar -cf - * | ssh root@114.116.95.80 tar -xf - -C /data
@@ -53,9 +56,11 @@ scp -pr config root@<ip>:/root   #拷贝config目录到远程/root目录下
 
     #同步指定文件
     rsync -avHP --sparse --compress --files-from=include_file /mnt/image/ root@<ip>:/mnt/data
-        /abc                #需要去掉同步目录的前缀  /mnt/image/abc
-        /test/test.log
-        /opt
+        /abc                #abc文件 需要去掉同步目录的前缀  /mnt/image/abc
+        /test/test.log      #文件
+        /opt                #文件
+        ./abc               #可以
+        abc                 #可以
 
     #指定ssh私钥
     rsync -avHP -e 'ssh -i ssh-rsa-test -o StrictHostKeyChecking=no' 100MB.img root@114.116.95.80:/data
@@ -76,6 +81,23 @@ scp -pr config root@<ip>:/root   #拷贝config目录到远程/root目录下
     #对于大文件，，如果是只追加数据的文件，可以用--append参数加快同步速率
     rsync -avHP --sparse --files-from=syncfile --append /mnt/image/ root@<ip>:/mnt/data         #同步完成后不校验
     rsync -avHP --sparse --files-from=syncfile --append-verify /mnt/image/ root@<ip>:/mnt/data  #同步完成后进行校验，校验不通过会重新同步
+
+    ##只同步指定目录的文件
+    rsync -avHPWXS --include-from=/root/files_in --exclude="/*" /boot/ root@192.168.1.93:/root/tmp
+        (1) 其他文件或目录需要用 --exclude="/*"排除， --exclude="/*" 需要在--include-from后面
+        (2) files_in内容:
+            grub                    #目录
+            grub/                   #目录
+            grub2/                  #目录
+            sparce_image            #单个文件
+            grub/*                  #不可以
+            grub2/*                 #不可以
+            ./grub                  #不可以
+            ./grub/                 #不可以
+            ./grub2/                #不可以
+            ./grub/*                #不可以
+            ./grub2/*               #不可以
+            ./sparce_image          #不可以
 
 #限制网卡速率
 
