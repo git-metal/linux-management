@@ -11,4 +11,10 @@ ssh -o StrictHostKeyChecking=no -o NumberOfPasswordPrompts=0 -i <identity_file> 
     ssh-keygen -p -f xxx.pri        #重新设置私钥的密码，公钥不变
 
 #ssh-keyscan
+
+
+#设置ssh客户端默认连接端口
+	/etc/services
+	
+
     

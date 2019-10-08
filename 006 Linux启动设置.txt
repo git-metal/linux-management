@@ -41,4 +41,5 @@ kernle参数：
     #> boot
 
 #修改密码
-	echo "root:xxx" | chpasswd	
+	echo "root:xxx" | chpasswd
+	echo "root:PyS85uRIQsbl5Qh" | chpasswd

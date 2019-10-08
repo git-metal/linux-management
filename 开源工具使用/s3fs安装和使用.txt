@@ -19,4 +19,8 @@
         #华为云：
         s3fs bucket-name /mnt/s3fs -o url=https://obs.cn-east-2.myhwclouds.com/
 
-    
+        s3fs -o passwd_file=/etc/passwd-s3fs bucket-name /mnt/s3fs -o url=https://obs.cn-east-2.myhwclouds.com/
+
+        #
+        s3fs sms-proxy /mnt/s3fs/ -o url=https://obs.cn-north-1.myhuaweicloud.com
+        s3fs -o passwd_file=/etc/passwd-s3fs.sms sms-migration-log-bucket /mnt/sms-obs/ -o url=https://obs.cn-north-1.myhuaweicloud.com
