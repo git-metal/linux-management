@@ -25,3 +25,9 @@ Windows 2000             NT 5.0
 #查看Windows版本号
 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion 
 msinfo32
+
+windows内核版本: https://docs.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-osversioninfoexa 
+
+查看Windows内核版本:
+	ver
+	winver
